@@ -15,7 +15,9 @@ class _TodoState extends State<Todo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('todolist')),
+      appBar: AppBar(
+        title: Text('todolist'),
+      ),
       body: Calendar(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

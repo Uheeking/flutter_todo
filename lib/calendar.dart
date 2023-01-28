@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -10,6 +11,14 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
+  Map<DateTime, List<Event>> events = {
+    DateTime.utc(2023, 1, 11): [Event('title'), Event('title2')],
+  };
+
+  List<Event> _getEventsForDay(DateTime day) {
+    return events[day] ?? [];
+  }
+
   var _calendarFormat = CalendarFormat.month;
 
   @override
@@ -26,6 +35,18 @@ class _CalendarState extends State<Calendar> {
           _calendarFormat = format;
         });
       },
+      calendarStyle: CalendarStyle(
+        markerSize: 10.0,
+        markerDecoration:
+            BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+      ),
+      eventLoader: _getEventsForDay,
     );
   }
+}
+
+class Event {
+  String title;
+
+  Event(this.title);
 }

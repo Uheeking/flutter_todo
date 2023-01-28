@@ -16,7 +16,10 @@ class _TodoState extends State<Todo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('todolist'),
+        centerTitle: true,
+        title: Text(
+          'Todo List',
+        ),
       ),
       body: Calendar(),
       floatingActionButton: FloatingActionButton(

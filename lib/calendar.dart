@@ -23,24 +23,26 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    return TableCalendar(
-      locale: 'ko_KR',
-      focusedDay: DateTime.now(),
-      firstDay: DateTime(2022, 1, 1),
-      lastDay: DateTime(2023, 12, 31),
-      calendarFormat: _calendarFormat,
-      onFormatChanged: (format) {
-        print(format);
-        setState(() {
-          _calendarFormat = format;
-        });
-      },
-      calendarStyle: CalendarStyle(
-        markerSize: 10.0,
-        markerDecoration:
-            BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+    return SingleChildScrollView(
+      child: TableCalendar(
+        locale: 'ko_KR',
+        focusedDay: DateTime.now(),
+        firstDay: DateTime(2022, 1, 1),
+        lastDay: DateTime(2023, 12, 31),
+        calendarFormat: _calendarFormat,
+        onFormatChanged: (format) {
+          print(format);
+          setState(() {
+            _calendarFormat = format;
+          });
+        },
+        calendarStyle: CalendarStyle(
+          markerSize: 10.0,
+          markerDecoration:
+              BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+        ),
+        eventLoader: _getEventsForDay,
       ),
-      eventLoader: _getEventsForDay,
     );
   }
 }

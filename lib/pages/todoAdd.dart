@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:intl/intl.dart';
 
 class TodoAdd extends StatefulWidget {
-  const TodoAdd({super.key});
+  final DateTime day;
+  const TodoAdd({super.key, required this.day});
 
   @override
   State<TodoAdd> createState() => _TodoAddState();
 }
 
+// String date =
+
 class _TodoAddState extends State<TodoAdd> {
+  // String date = widget.day;
+
   @override
   Widget build(BuildContext context) {
+    final date = DateFormat('yyyy년 MM월 dd일').format(widget.day);
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
+        print(date);
       },
       child: Scaffold(
         appBar: AppBar(
@@ -65,27 +74,44 @@ class _TodoAddState extends State<TodoAdd> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
               ),
-              TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.all(10.0),
-                    hintText: '설명을 적어주세요.'),
+              Align(
+                alignment: Alignment(-1.0, 0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 2.4,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: Colors.grey)),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Icon(Icons.calendar_today),
+                        Text(
+                          date,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        )
+                      ]),
+                ),
+              ),
+              SizedBox(
+                height: 100,
               ),
               Container(
-                width: MediaQuery.of(context).size.width / 2.5,
+                width: MediaQuery.of(context).size.width / 2.2,
                 height: 55,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(30),
                     border: Border.all(color: Colors.blue),
                     color: Colors.blue),
-                child: Row(children: [
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Icon(Icons.add),
                   Text(
-                    '새로운 일정추가하기',
+                    '새로운 일정 추가하기',
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   )
                 ]),
-              )
+              ),
             ]),
           ),
         ),

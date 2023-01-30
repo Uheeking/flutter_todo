@@ -3,7 +3,13 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class TodoAdd extends StatefulWidget {
-  const TodoAdd({super.key});
+  final DateTime day;
+
+  const TodoAdd({super.key, required this.day});
+
+  Home() {
+    _makeGetRequest();
+  }
 
   @override
   State<TodoAdd> createState() => _TodoAddState();
@@ -14,7 +20,7 @@ class _TodoAddState extends State<TodoAdd> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).unfocus();
+        // FocusScope.of(context).unfocus();
       },
       child: Scaffold(
         appBar: AppBar(
@@ -57,20 +63,29 @@ class _TodoAddState extends State<TodoAdd> {
               SizedBox(
                 height: 30,
               ),
+              Text(
+                '날짜',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
               Container(
-                margin: EdgeInsets.only(bottom: 10),
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  '날짜',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                width: MediaQuery.of(context).size.width / 2.5,
+                height: 50,
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Icon(Icons.calendar_today),
+                  ],
                 ),
               ),
-              TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.all(10.0),
-                    hintText: '설명을 적어주세요.'),
+              SizedBox(
+                height: 40,
               ),
+              // TextField(
+              //   decoration: InputDecoration(
+              //       border: OutlineInputBorder(),
+              //       contentPadding: EdgeInsets.all(10.0),
+              //       hintText: '설명을 적어주세요.'),
+              // ),
               Container(
                 width: MediaQuery.of(context).size.width / 2.5,
                 height: 55,
@@ -92,4 +107,8 @@ class _TodoAddState extends State<TodoAdd> {
       ),
     );
   }
+}
+
+_makeGetRequest() {
+  print('hello');
 }

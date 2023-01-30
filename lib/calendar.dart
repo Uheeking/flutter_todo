@@ -12,6 +12,7 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
+  
   DateTime selectedDay = DateTime(
     DateTime.now().year,
     DateTime.now().month,
@@ -71,7 +72,9 @@ class _CalendarState extends State<Calendar> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => TodoAdd()));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TodoAdd(day: focusedDay)));
         },
         child: Icon(Icons.add),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:todo/todoAdd.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({super.key});
@@ -16,7 +17,6 @@ class _CalendarState extends State<Calendar> {
     DateTime.now().month,
     DateTime.now().day,
   );
-
   DateTime focusedDay = DateTime.now();
 
   Map<DateTime, List<Event>> events = {
@@ -31,8 +31,14 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: TableCalendar(
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'Todo List',
+        ),
+      ),
+      body: TableCalendar(
         locale: 'ko_KR',
         firstDay: DateTime(2022, 1, 1),
         lastDay: DateTime(2023, 12, 31),
@@ -61,6 +67,15 @@ class _CalendarState extends State<Calendar> {
               BoxDecoration(color: Colors.red, shape: BoxShape.circle),
         ),
         eventLoader: _getEventsForDay,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TodoAdd(day: focusedDay)));
+        },
+        child: Icon(Icons.add),
       ),
     );
   }

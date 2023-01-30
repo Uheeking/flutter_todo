@@ -11,6 +11,14 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
+  DateTime selectedDay = DateTime(
+    DateTime.now().year,
+    DateTime.now().month,
+    DateTime.now().day,
+  );
+
+  DateTime focusedDay = DateTime.now();
+
   Map<DateTime, List<Event>> events = {
     DateTime.utc(2023, 1, 11): [Event('title'), Event('title2')],
   };
@@ -26,9 +34,20 @@ class _CalendarState extends State<Calendar> {
     return SingleChildScrollView(
       child: TableCalendar(
         locale: 'ko_KR',
-        focusedDay: DateTime.now(),
         firstDay: DateTime(2022, 1, 1),
         lastDay: DateTime(2023, 12, 31),
+        focusedDay: focusedDay,
+        onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
+          // 선택된 날짜의 상태를 갱신합니다.
+          setState(() {
+            this.selectedDay = selectedDay;
+            this.focusedDay = focusedDay;
+          });
+        },
+        selectedDayPredicate: (DateTime day) {
+          // selectedDay 와 동일한 날짜의 모양을 바꿔줍니다.
+          return isSameDay(selectedDay, day);
+        },
         calendarFormat: _calendarFormat,
         onFormatChanged: (format) {
           print(format);

@@ -28,60 +28,55 @@ class _TodoAddState extends State<TodoAdd> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Todo Add'),
+          title: const Text('Todo Add'),
           centerTitle: true,
         ),
         body: Form(
           key: formKey,
           child: Container(
-            padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
             child: SingleChildScrollView(
               child: Column(children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text(
+                  child: const Text(
                     '할 일',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                 ),
                 TextFormField(
-                  onChanged: (value) {
-                    print('myController: $value');
-                  },
-                  controller: myController,
-                  decoration: InputDecoration(hintText: '할 일을 적어주세요.'),
+                  autovalidateMode: AutovalidateMode.always,
+                  decoration: const InputDecoration(hintText: '할 일을 적어주세요.'),
                   onSaved: (val) {
                     setState(() {
-                      this.name = val;
+                      name = val;
                     });
                   },
                   validator: (val) {
                     if (val!.isEmpty) {
                       return '할 일은 필수사항입니다.';
                     }
-                    if (val.length < 1) {
-                      return '할 일은 필수사항입니다.';
-                    }
                     return null;
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Container(
-                  margin: EdgeInsets.only(bottom: 10),
+                  margin: const EdgeInsets.only(bottom: 10),
                   alignment: Alignment.centerLeft,
-                  child: Text(
+                  child: const Text(
                     '설명',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                 ),
                 TextFormField(
                   maxLines: 5,
+                  autovalidateMode: AutovalidateMode.always,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(0)),
-                      contentPadding: EdgeInsets.all(10.0),
+                      contentPadding: const EdgeInsets.all(10.0),
                       hintText: '설명을 적어주세요.'),
                   onSaved: (val) {
                     setState(() {
@@ -95,13 +90,13 @@ class _TodoAddState extends State<TodoAdd> {
                     return null;
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Container(
-                  margin: EdgeInsets.only(bottom: 10),
+                  margin: const EdgeInsets.only(bottom: 10),
                   alignment: Alignment.centerLeft,
-                  child: Text(
+                  child: const Text(
                     '날짜',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
@@ -116,24 +111,24 @@ class _TodoAddState extends State<TodoAdd> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Icon(Icons.calendar_today),
+                          const Icon(Icons.calendar_today),
                           Text(
                             date,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           )
                         ]),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 80,
                 ),
                 ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       formKey.currentState!.save();
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(name! + 'uheee' + description!)));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(name! + ' ' + description!)));
                       print(name);
                       print(description);
                       // validation 이 성공하면 true 가 리턴돼요!
@@ -147,7 +142,7 @@ class _TodoAddState extends State<TodoAdd> {
                         color: Colors.blue),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Icon(Icons.add),
                           Text(
                             '새로운 일정 추가하기',

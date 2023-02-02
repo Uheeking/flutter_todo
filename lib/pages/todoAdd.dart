@@ -15,7 +15,7 @@ class TodoAdd extends StatefulWidget {
 class _TodoAddState extends State<TodoAdd> {
   final myController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  String? name = '';
+  String? todo = '';
   String? description = '';
 
   @override
@@ -49,7 +49,7 @@ class _TodoAddState extends State<TodoAdd> {
                   decoration: const InputDecoration(hintText: '할 일을 적어주세요.'),
                   onSaved: (val) {
                     setState(() {
-                      name = val;
+                      todo = val;
                     });
                   },
                   validator: (val) {
@@ -128,9 +128,9 @@ class _TodoAddState extends State<TodoAdd> {
                     if (formKey.currentState!.validate()) {
                       formKey.currentState!.save();
                       ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(name! + ' ' + description!)));
-                      print(name);
-                      print(description);
+                          SnackBar(content: Text('할일이 저장되었습니다!')));
+                      Navigator.pop(
+                          context, {'todo': todo, 'description': description});
                       // validation 이 성공하면 true 가 리턴돼요!
                     }
                   },

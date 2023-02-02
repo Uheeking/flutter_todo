@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 class TodoAdd extends StatefulWidget {
   final DateTime day;
+  // Datas datas = new Datas();
   const TodoAdd({super.key, required this.day});
 
   @override
@@ -129,8 +130,7 @@ class _TodoAddState extends State<TodoAdd> {
                       formKey.currentState!.save();
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('할일이 저장되었습니다!')));
-                      Navigator.pop(
-                          context, {'todo': todo, 'description': description});
+                      Navigator.pop(context, Datas(todo!, description!));
                       // validation 이 성공하면 true 가 리턴돼요!
                     }
                   },
@@ -158,4 +158,13 @@ class _TodoAddState extends State<TodoAdd> {
       ),
     );
   }
+}
+
+class Datas {
+  String? todo = '';
+  String? description = '';
+//   final String args1;
+//   final String args2;
+
+  Datas(this.todo, this.description);
 }

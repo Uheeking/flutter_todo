@@ -96,18 +96,17 @@ class SelectionButton extends StatelessWidget {
     DateTime focusedDay = DateTime.now();
     // Navigator.push는 Future를 반환합니다. Future는 선택 창에서
     // Navigator.pop이 호출된 이후 완료될 것입니다.
-    final Map<String, String> result = await Navigator.push(
+    Datas result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => TodoAdd(day: focusedDay)),
     );
-    var todo = result['todo'];
-    var description = result['description'];
+    print(result.todo);
 
     // 선택 창으로부터 결과 값을 받은 후, 이전에 있던 snackbar는 숨기고 새로운 결과 값을
     // 보여줍니다.
     ScaffoldMessenger.of(context)
       ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text("$todo")));
+      ..showSnackBar(SnackBar(content: Text(result.todo!)));
   }
 }
 
@@ -115,4 +114,11 @@ class Event {
   String title;
 
   Event(this.title);
+}
+
+class Arguments {
+  final String args1;
+  final String args2;
+
+  Arguments(this.args1, this.args2);
 }

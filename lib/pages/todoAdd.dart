@@ -164,8 +164,6 @@ class Datas {
   bool isDone = false;
   String? todo = '';
   String? description = '';
-//   final String args1;
-//   final String args2;
 
   Datas(this.todo, this.description);
 }

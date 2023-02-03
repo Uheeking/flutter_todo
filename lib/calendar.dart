@@ -19,7 +19,6 @@ class _CalendarState extends State<Calendar> {
   );
   DateTime focusedDay = DateTime.now();
 
-  final myController = TextEditingController();
   final _items = <ToDo>[];
 
   void _addTodo(ToDo todo) {
@@ -28,23 +27,16 @@ class _CalendarState extends State<Calendar> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    // myController에 리스너 추가
-    myController.addListener(_printLatestValue);
+  void _deleteTodo(ToDo todo) {
+    setState(() {
+      _items.remove(todo);
+    });
   }
 
-  // _MyCustomFormState가 제거될 때 호출
-  @override
-  void dispose() {
-    // 텍스트에디팅컨트롤러를 제거하고, 등록된 리스너도 제거된다.
-    myController.dispose();
-    super.dispose();
-  }
-
-  void _printLatestValue() {
-    print("Second text field: ${myController.text}");
+  void _toggleTodo(ToDo todo) {
+    setState(() {
+      todo.isDone = !todo.isDone;
+    });
   }
 
   Map<DateTime, List<Event>> events = {
@@ -59,21 +51,47 @@ class _CalendarState extends State<Calendar> {
 
   _navigateAndDisplaySelection(BuildContext context) async {
     DateTime focusedDay = DateTime.now();
-    // Navigator.push는 Future를 반환합니다. Future는 선택 창에서
-    // Navigator.pop이 호출된 이후 완료될 것입니다.
     Datas result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => TodoAdd(day: focusedDay)),
     );
-    print(result.todo);
+    // print(result.todo);
     _addTodo(ToDo(result.todo!, result.description!));
-    // _addTodo(result.todo, result.description);
 
-    // 선택 창으로부터 결과 값을 받은 후, 이전에 있던 snackbar는 숨기고 새로운 결과 값을
-    // 보여줍니다.
     ScaffoldMessenger.of(context)
       ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(result.todo!)));
+      ..showSnackBar(SnackBar(content: Text('새로운 일정이 추가되었습니다. ')));
+  }
+
+  Widget _buildItemWidget(ToDo todo) {
+    return ListTile(
+      onTap: () {
+        _toggleTodo(todo);
+      },
+      trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+        IconButton(
+          color: Colors.blue,
+          icon: Icon(Icons.check),
+          onPressed: () {
+            _toggleTodo(todo);
+          },
+        ),
+        IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () {
+            _deleteTodo(todo);
+          },
+        ),
+      ]),
+      title: Text(
+        todo.title,
+        style: todo.isDone
+            ? TextStyle(
+                decoration: TextDecoration.lineThrough,
+                fontStyle: FontStyle.italic)
+            : null,
+      ),
+    );
   }
 
   @override
@@ -131,24 +149,6 @@ class _CalendarState extends State<Calendar> {
       ),
     );
   }
-}
-
-Widget _buildItemWidget(ToDo todo) {
-  return ListTile(
-    onTap: () {},
-    trailing: IconButton(
-      icon: Icon(Icons.delete),
-      onPressed: () {},
-    ),
-    title: Text(
-      todo.title,
-      style: todo.isDone
-          ? TextStyle(
-              decoration: TextDecoration.lineThrough,
-              fontStyle: FontStyle.italic)
-          : null,
-    ),
-  );
 }
 
 class Event {

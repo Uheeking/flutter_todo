@@ -161,6 +161,7 @@ class _TodoAddState extends State<TodoAdd> {
 }
 
 class Datas {
+  bool isDone = false;
   String? todo = '';
   String? description = '';
 //   final String args1;

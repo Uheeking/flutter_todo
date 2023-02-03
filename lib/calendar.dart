@@ -58,9 +58,9 @@ class _CalendarState extends State<Calendar> {
     // print(result.todo);
     _addTodo(ToDo(result.todo!, result.description!));
 
-    ScaffoldMessenger.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text('새로운 일정이 추가되었습니다. ')));
+    // ScaffoldMessenger.of(context)
+    //   ..removeCurrentSnackBar()
+    //   ..showSnackBar(SnackBar(content: Text('새로운 일정이 추가되었습니다. ')));
   }
 
   Widget _buildItemWidget(ToDo todo) {
@@ -135,10 +135,42 @@ class _CalendarState extends State<Calendar> {
             ),
             eventLoader: _getEventsForDay,
           ),
-          ListView(
+          ListView.builder(
+            itemCount: _items.length,
+            itemBuilder: (BuildContext context, index) {
+              return ListTile(
+                onTap: () {
+                  _toggleTodo(_items[index]);
+                },
+                trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                  IconButton(
+                    color: Colors.blue,
+                    icon: Icon(Icons.check),
+                    onPressed: () {
+                      _toggleTodo(_items[index]);
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      _deleteTodo(_items[index]);
+                    },
+                  ),
+                ]),
+                title: Text(
+                  _items[index].title,
+                  style: _items[index].isDone
+                      ? TextStyle(
+                          decoration: TextDecoration.lineThrough,
+                          fontStyle: FontStyle.italic)
+                      : null,
+                ),
+              );
+            },
+
             shrinkWrap: true,
-            children: _items.map((todo) => _buildItemWidget(todo)).toList(),
-          )
+            // children: _items.map((todo) => _buildItemWidget(todo)).toList(),
+          ),
         ]),
       ),
       floatingActionButton: FloatingActionButton(

@@ -128,8 +128,15 @@ class _TodoAddState extends State<TodoAdd> {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       formKey.currentState!.save();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('할일이 저장되었습니다!')));
+                      Get.snackbar(
+                        '저장완료!',
+                        '폼 저장이 완료되었습니다!',
+                        backgroundColor: Colors.white,
+                      );
+                      // Get.snackbar('User 123', 'Successfully created',
+                      //     snackPosition: SnackPosition.BOTTOM);
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                      //     SnackBar(content: Text('할일이 저장되었습니다!')));
                       Navigator.pop(context, Datas(todo!, description!));
                       // validation 이 성공하면 true 가 리턴돼요!
                     }
@@ -162,8 +169,8 @@ class _TodoAddState extends State<TodoAdd> {
 
 class Datas {
   bool isDone = false;
-  String? todo = '';
-  String? description = '';
+  String todo = '';
+  String description = '';
 
   Datas(this.todo, this.description);
 }

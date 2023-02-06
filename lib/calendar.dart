@@ -113,7 +113,7 @@ class _CalendarState extends State<Calendar> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Todo List',
         ),
       ),
@@ -121,13 +121,13 @@ class _CalendarState extends State<Calendar> {
         SlidingUpPanel(
           parallaxEnabled: true,
           parallaxOffset: .5,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
           panelBuilder: (sc) => Column(children: [
-            SizedBox(
+            const SizedBox(
               height: 12.0,
             ),
-            Text(
+            const Text(
               "오늘의 할일",
               style: TextStyle(
                 fontWeight: FontWeight.normal,
@@ -213,6 +213,7 @@ class _CalendarState extends State<Calendar> {
                   this.selectedDay = selectedDay;
                   this.focusedDay = focusedDay;
                 });
+                print(selectedDay);
               },
               selectedDayPredicate: (DateTime day) {
                 // selectedDay 와 동일한 날짜의 모양을 바꿔줍니다.

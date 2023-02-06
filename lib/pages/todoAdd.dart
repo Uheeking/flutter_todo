@@ -133,6 +133,8 @@ class _TodoAddState extends State<TodoAdd> {
                         '폼 저장이 완료되었습니다!',
                         backgroundColor: Colors.white,
                       );
+                      print(todo);
+                      print(description);
                       // Get.snackbar('User 123', 'Successfully created',
                       //     snackPosition: SnackPosition.BOTTOM);
                       // ScaffoldMessenger.of(context).showSnackBar(
@@ -169,8 +171,8 @@ class _TodoAddState extends State<TodoAdd> {
 
 class Datas {
   bool isDone = false;
-  String todo = '';
-  String description = '';
+  late String todo = '';
+  late String description = '';
 
   Datas(this.todo, this.description);
 }

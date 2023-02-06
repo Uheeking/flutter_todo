@@ -129,7 +129,7 @@ packages:
     source: sdk
     version: "0.0.99"
   sliding_up_panel:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: sliding_up_panel
       url: "https://pub.dartlang.org"

@@ -171,8 +171,8 @@ class _TodoAddState extends State<TodoAdd> {
 
 class Datas {
   bool isDone = false;
-  late String todo = '';
-  late String description = '';
+  late String? todo = '';
+  late String? description = '';
 
   Datas(this.todo, this.description);
 }

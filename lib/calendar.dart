@@ -57,12 +57,14 @@ class _CalendarState extends State<Calendar> {
 
   _navigateAndDisplaySelection(BuildContext context) async {
     DateTime focusedDay = DateTime.now();
-    Datas result = await Navigator.push(
+    var result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => TodoAdd(day: focusedDay)),
     );
     // print(result.todo);
-    _addTodo(ToDo(result.todo!, result.description!));
+    if (result?.todo != null && result?.description != null) {
+      _addTodo(ToDo(result.todo!, result.description!));
+    }
   }
 
   Widget _buildItemWidget(ToDo todo) {

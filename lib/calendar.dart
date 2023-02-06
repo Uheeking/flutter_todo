@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:todo/pages/todoAdd.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:intl/intl.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({super.key});
@@ -25,12 +26,24 @@ class _CalendarState extends State<Calendar> {
   );
   DateTime focusedDay = DateTime.now();
 
+  Map<DateTime, List<Event>> events = {
+    DateTime(2023, 1, 11): [Event('title'), Event('title2')],
+  };
+
+  List<Event> _getEventsForDay(DateTime day) {
+    return events[day] ?? [];
+  }
+
   final _items = <ToDo>[];
 
   void _addTodo(ToDo todo) {
     setState(() {
       _items.add(todo);
+      events[selectedDay]?.add(Event(todo.title));
     });
+    print(_getEventsForDay(selectedDay).map((Event event) => ListTile(
+          title: Text(event.title),
+        )));
   }
 
   void _deleteTodo(ToDo todo) {
@@ -45,21 +58,13 @@ class _CalendarState extends State<Calendar> {
     });
   }
 
-  Map<DateTime, List<Event>> events = {
-    DateTime.utc(2023, 1, 11): [Event('title'), Event('title2')],
-  };
-
-  List<Event> _getEventsForDay(DateTime day) {
-    return events[day] ?? [];
-  }
-
   var _calendarFormat = CalendarFormat.month;
 
   _navigateAndDisplaySelection(BuildContext context) async {
     DateTime focusedDay = DateTime.now();
     var result = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => TodoAdd(day: focusedDay)),
+      MaterialPageRoute(builder: (context) => TodoAdd(day: selectedDay)),
     );
     // print(result.todo);
     if (result?.todo != null && result?.description != null) {
@@ -136,6 +141,13 @@ class _CalendarState extends State<Calendar> {
                 fontSize: 24.0,
               ),
             ),
+            // Text(
+            //   selectedDay,
+            //   style: TextStyle(
+            //     fontWeight: FontWeight.normal,
+            //     fontSize: 24.0,
+            //   ),
+            // ),
             ListView.builder(
               itemCount: _items.length,
               itemBuilder: (BuildContext context, index) {
@@ -248,82 +260,6 @@ class _CalendarState extends State<Calendar> {
           ),
         ),
       ]),
-      // SingleChildScrollView(
-      //   child: Column(children: [
-      //     TableCalendar(
-      //       locale: 'ko_KR',
-      //       firstDay: DateTime(2022, 1, 1),
-      //       lastDay: DateTime(2023, 12, 31),
-      //       focusedDay: focusedDay,
-      //       onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
-      //         // 선택된 날짜의 상태를 갱신합니다.
-      //         setState(() {
-      //           this.selectedDay = selectedDay;
-      //           this.focusedDay = focusedDay;
-      //         });
-      //       },
-      //       selectedDayPredicate: (DateTime day) {
-      //         // selectedDay 와 동일한 날짜의 모양을 바꿔줍니다.
-      //         return isSameDay(selectedDay, day);
-      //       },
-      //       calendarFormat: _calendarFormat,
-      //       onFormatChanged: (format) {
-      //         print(format);
-      //         setState(() {
-      //           _calendarFormat = format;
-      //         });
-      //       },
-      //       calendarStyle: CalendarStyle(
-      //         markerSize: 10.0,
-      //         markerDecoration:
-      //             BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-      //       ),
-      //       eventLoader: _getEventsForDay,
-      //     ),
-      //     // ListView.builder(
-      //     //   itemCount: _items.length,
-      //     //   itemBuilder: (BuildContext context, index) {
-      //     //     return ListTile(
-      //     //       onTap: () {
-      //     //         _toggleTodo(_items[index]);
-      //     //       },
-      //     //       trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-      //     //         IconButton(
-      //     //           color: Colors.blue,
-      //     //           icon: Icon(Icons.check),
-      //     //           onPressed: () {
-      //     //             _toggleTodo(_items[index]);
-      //     //           },
-      //     //         ),
-      //     //         IconButton(
-      //     //           icon: Icon(Icons.delete),
-      //     //           onPressed: () {
-      //     //             _deleteTodo(_items[index]);
-      //     //           },
-      //     //         ),
-      //     //       ]),
-      //     //       title: Text(
-      //     //         _items[index].title,
-      //     //         style: _items[index].isDone
-      //     //             ? TextStyle(
-      //     //                 decoration: TextDecoration.lineThrough,
-      //     //                 fontStyle: FontStyle.italic)
-      //     //             : null,
-      //     //       ),
-      //     //     );
-      //     //   },
-
-      //     //   shrinkWrap: true,
-      //     //   // children: _items.map((todo) => _buildItemWidget(todo)).toList(),
-      //     // ),
-      //   ]),
-      // ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     _navigateAndDisplaySelection(context);
-      //   },
-      //   child: Icon(Icons.add),
-      // ),
     );
   }
 }

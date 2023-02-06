@@ -121,42 +121,82 @@ class _CalendarState extends State<Calendar> {
         SlidingUpPanel(
           parallaxEnabled: true,
           parallaxOffset: .5,
-          panelBuilder: (sc) => ListView.builder(
-            itemCount: _items.length,
-            itemBuilder: (BuildContext context, index) {
-              return ListTile(
-                onTap: () {
-                  _toggleTodo(_items[index]);
-                },
-                trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                  IconButton(
-                    color: Colors.blue,
-                    icon: Icon(Icons.check),
-                    onPressed: () {
-                      _toggleTodo(_items[index]);
-                    },
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
+          panelBuilder: (sc) => Column(children: [
+            SizedBox(
+              height: 12.0,
+            ),
+            Text(
+              "오늘의 할일",
+              style: TextStyle(
+                fontWeight: FontWeight.normal,
+                fontSize: 24.0,
+              ),
+            ),
+            ListView.builder(
+              itemCount: _items.length,
+              itemBuilder: (BuildContext context, index) {
+                return ListTile(
+                  onTap: () {
+                    _toggleTodo(_items[index]);
+                  },
+                  trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                    IconButton(
+                      color: Colors.blue,
+                      icon: Icon(Icons.check),
+                      onPressed: () {
+                        _toggleTodo(_items[index]);
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('팝업메시지'),
+                                content: SingleChildScrollView(
+                                    child: ListBody(
+                                  children: [
+                                    Text('일정을 삭제하시겠습니까?'),
+                                  ],
+                                )),
+                                actions: [
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        _deleteTodo(_items[index]);
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('ok')),
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('cancel'))
+                                ],
+                              );
+                            });
+                        // _deleteTodo(_items[index]);
+                      },
+                    ),
+                  ]),
+                  title: Text(
+                    _items[index].title,
+                    style: _items[index].isDone
+                        ? TextStyle(
+                            decoration: TextDecoration.lineThrough,
+                            fontStyle: FontStyle.italic)
+                        : null,
                   ),
-                  IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      _deleteTodo(_items[index]);
-                    },
-                  ),
-                ]),
-                title: Text(
-                  _items[index].title,
-                  style: _items[index].isDone
-                      ? TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                          fontStyle: FontStyle.italic)
-                      : null,
-                ),
-              );
-            },
+                );
+              },
 
-            shrinkWrap: true,
-            // children: _items.map((todo) => _buildItemWidget(todo)).toList(),
-          ),
+              shrinkWrap: true,
+              // children: _items.map((todo) => _buildItemWidget(todo)).toList(),
+            ),
+          ]),
           onPanelSlide: (double pos) => setState(() {
             _fabHeight =
                 pos * (_panelHeightClosed - _panelHeightOpen) + _initFabHeight;

@@ -41,16 +41,19 @@ class _CalendarState extends State<Calendar> {
   final _items = <ToDo>[];
 
   void _addTodo(ToDo todo) {
-    if (selectedEvents[selectedDay] != null) {
-      selectedEvents[selectedDay]?.add(ToDo(todo.title, todo.description));
-    } else {
-      selectedEvents[selectedDay] = [(ToDo(todo.title, todo.description))];
-    }
+    setState(() {
+      if (selectedEvents[selectedDay] != null) {
+        selectedEvents[selectedDay]?.add(ToDo(todo.title, todo.description));
+      } else {
+        selectedEvents[selectedDay] = [(ToDo(todo.title, todo.description))];
+      }
+    });
   }
 
   void _deleteTodo(ToDo todo) {
-    // return print(selectedEvents[selectedDay]);
-    selectedEvents[selectedDay]?.remove(ToDo(todo.title, todo.description));
+    setState(() {
+      selectedEvents[selectedDay]?.remove(todo);
+    });
   }
 
   void _checkTodo(ToDo todo) {
@@ -153,8 +156,7 @@ class _CalendarState extends State<Calendar> {
                                 actions: [
                                   ElevatedButton(
                                       onPressed: () {
-                                        _deleteTodo(
-                                            ToDo(todo.title, todo.description));
+                                        _deleteTodo(todo);
                                         Navigator.of(context).pop();
                                       },
                                       child: Text('ok')),

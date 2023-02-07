@@ -25,6 +25,7 @@ class _CalendarState extends State<Calendar> {
     DateTime.now().day,
   );
   DateTime focusedDay = DateTime.now();
+  late String dateStr;
 
   Map<DateTime, List<Event>> selectedEvents = {
     DateTime.utc(2023, 1, 11): [Event('title'), Event('title2')],
@@ -40,15 +41,13 @@ class _CalendarState extends State<Calendar> {
     setState(() {
       _items.add(todo);
     });
-    print('todo');
-    print(todo);
     if (selectedEvents[selectedDay] != null) {
       selectedEvents[selectedDay]?.add(Event(todo.title));
     } else {
       selectedEvents[selectedDay] = [(Event(todo.title))];
     }
     print(selectedEvents[selectedDay]);
-    print(selectedEvents[selectedDay]?.length);
+    print(dateStr);
   }
 
   void _deleteTodo(ToDo todo) {
@@ -115,78 +114,15 @@ class _CalendarState extends State<Calendar> {
                 fontSize: 20.0,
               ),
             ),
-            ..._getEventsForDay(selectedDay)
-                .map((Event event) => ListTile(title: Text(event.title)))
             // Text(
-            //   String(selectedDay),
+            //   // String(selectedDay),
             //   style: TextStyle(
             //     fontWeight: FontWeight.normal,
             //     fontSize: 20.0,
             //   ),
             // ),
-            // ListView.builder(
-            //   itemCount: selectedEvents[selectedDay]?.length,
-            //   itemBuilder: (BuildContext context, index) {
-
-            // return ListTile(
-            //   onTap: () {
-            //     _checkTodo(_items[index]);
-            //   },
-            //   trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-            //     IconButton(
-            //       color: Colors.blue,
-            //       icon: Icon(Icons.check),
-            //       onPressed: () {
-            //         _checkTodo(_items[index]);
-            //       },
-            //     ),
-            //     IconButton(
-            //       icon: Icon(Icons.delete),
-            //       onPressed: () {
-            //         showDialog(
-            //             context: context,
-            //             builder: (BuildContext context) {
-            //               return AlertDialog(
-            //                 title: Text('일정'),
-            //                 content: SingleChildScrollView(
-            //                     child: ListBody(
-            //                   children: [
-            //                     Text('일정을 삭제하시겠습니까?'),
-            //                   ],
-            //                 )),
-            //                 actions: [
-            //                   ElevatedButton(
-            //                       onPressed: () {
-            //                         _deleteTodo(_items[index]);
-            //                         Navigator.of(context).pop();
-            //                       },
-            //                       child: Text('ok')),
-            //                   ElevatedButton(
-            //                       onPressed: () {
-            //                         Navigator.of(context).pop();
-            //                       },
-            //                       child: Text('cancel'))
-            //                 ],
-            //               );
-            //             });
-            //         // _deleteTodo(_items[index]);
-            //       },
-            //     ),
-            //   ]),
-            // title: Text(
-            //   _items[index].title,
-            //   style: _items[index].isDone
-            //       ? TextStyle(
-            //           decoration: TextDecoration.lineThrough,
-            //           fontStyle: FontStyle.italic)
-            //       : null,
-            // ),
-            // );
-            // },
-
-            // shrinkWrap: true,
-            // children: _items.map((todo) => _buildItemWidget(todo)).toList(),
-            // ),
+            ..._getEventsForDay(selectedDay)
+                .map((Event event) => ListTile(title: Text(event.title)))
           ]),
           onPanelSlide: (double pos) => setState(() {
             _fabHeight =
@@ -203,6 +139,8 @@ class _CalendarState extends State<Calendar> {
                 setState(() {
                   this.selectedDay = selectedDay;
                   this.focusedDay = focusedDay;
+                  this.dateStr =
+                      DateFormat('yyyy년 MM월 dd일').format(selectedDay);
                 });
                 print(selectedDay);
                 print(selectedEvents[selectedDay]);

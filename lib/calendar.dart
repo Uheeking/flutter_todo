@@ -40,16 +40,15 @@ class _CalendarState extends State<Calendar> {
     setState(() {
       _items.add(todo);
     });
+    print('todo');
     print(todo);
-    print(todo.title);
-    print(selectedDay);
-    // selectedEvents[selectedDay]?.add(Event(todo.title));
     if (selectedEvents[selectedDay] != null) {
       selectedEvents[selectedDay]?.add(Event(todo.title));
     } else {
       selectedEvents[selectedDay] = [(Event(todo.title))];
     }
-    print(selectedEvents);
+    print(selectedEvents[selectedDay]);
+    print(selectedEvents[selectedDay]?.length);
   }
 
   void _deleteTodo(ToDo todo) {
@@ -58,7 +57,7 @@ class _CalendarState extends State<Calendar> {
     });
   }
 
-  void _toggleTodo(ToDo todo) {
+  void _checkTodo(ToDo todo) {
     setState(() {
       todo.isDone = !todo.isDone;
     });
@@ -72,41 +71,10 @@ class _CalendarState extends State<Calendar> {
       context,
       MaterialPageRoute(builder: (context) => TodoAdd(day: selectedDay)),
     );
-    // print(result.todo);
+
     if (result?.todo != null && result?.description != null) {
       _addTodo(ToDo(result.todo!, result.description!));
     }
-  }
-
-  Widget _buildItemWidget(ToDo todo) {
-    return ListTile(
-      onTap: () {
-        _toggleTodo(todo);
-      },
-      trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-        IconButton(
-          color: Colors.blue,
-          icon: Icon(Icons.check),
-          onPressed: () {
-            _toggleTodo(todo);
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.delete),
-          onPressed: () {
-            _deleteTodo(todo);
-          },
-        ),
-      ]),
-      title: Text(
-        todo.title,
-        style: todo.isDone
-            ? TextStyle(
-                decoration: TextDecoration.lineThrough,
-                fontStyle: FontStyle.italic)
-            : null,
-      ),
-    );
   }
 
   BorderRadiusGeometry radius = BorderRadius.only(
@@ -141,81 +109,84 @@ class _CalendarState extends State<Calendar> {
               height: 12.0,
             ),
             const Text(
-              "오늘의 할일",
+              "일정 보기",
               style: TextStyle(
                 fontWeight: FontWeight.normal,
-                fontSize: 24.0,
+                fontSize: 20.0,
               ),
             ),
+            ..._getEventsForDay(selectedDay)
+                .map((Event event) => ListTile(title: Text(event.title)))
             // Text(
-            //   selectedDay,
+            //   String(selectedDay),
             //   style: TextStyle(
             //     fontWeight: FontWeight.normal,
-            //     fontSize: 24.0,
+            //     fontSize: 20.0,
             //   ),
             // ),
-            ListView.builder(
-              itemCount: _items.length,
-              itemBuilder: (BuildContext context, index) {
-                return ListTile(
-                  onTap: () {
-                    _toggleTodo(_items[index]);
-                  },
-                  trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                    IconButton(
-                      color: Colors.blue,
-                      icon: Icon(Icons.check),
-                      onPressed: () {
-                        _toggleTodo(_items[index]);
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('팝업메시지'),
-                                content: SingleChildScrollView(
-                                    child: ListBody(
-                                  children: [
-                                    Text('일정을 삭제하시겠습니까?'),
-                                  ],
-                                )),
-                                actions: [
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        _deleteTodo(_items[index]);
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text('ok')),
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text('cancel'))
-                                ],
-                              );
-                            });
-                        // _deleteTodo(_items[index]);
-                      },
-                    ),
-                  ]),
-                  title: Text(
-                    _items[index].title,
-                    style: _items[index].isDone
-                        ? TextStyle(
-                            decoration: TextDecoration.lineThrough,
-                            fontStyle: FontStyle.italic)
-                        : null,
-                  ),
-                );
-              },
+            // ListView.builder(
+            //   itemCount: selectedEvents[selectedDay]?.length,
+            //   itemBuilder: (BuildContext context, index) {
 
-              shrinkWrap: true,
-              // children: _items.map((todo) => _buildItemWidget(todo)).toList(),
-            ),
+            // return ListTile(
+            //   onTap: () {
+            //     _checkTodo(_items[index]);
+            //   },
+            //   trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+            //     IconButton(
+            //       color: Colors.blue,
+            //       icon: Icon(Icons.check),
+            //       onPressed: () {
+            //         _checkTodo(_items[index]);
+            //       },
+            //     ),
+            //     IconButton(
+            //       icon: Icon(Icons.delete),
+            //       onPressed: () {
+            //         showDialog(
+            //             context: context,
+            //             builder: (BuildContext context) {
+            //               return AlertDialog(
+            //                 title: Text('일정'),
+            //                 content: SingleChildScrollView(
+            //                     child: ListBody(
+            //                   children: [
+            //                     Text('일정을 삭제하시겠습니까?'),
+            //                   ],
+            //                 )),
+            //                 actions: [
+            //                   ElevatedButton(
+            //                       onPressed: () {
+            //                         _deleteTodo(_items[index]);
+            //                         Navigator.of(context).pop();
+            //                       },
+            //                       child: Text('ok')),
+            //                   ElevatedButton(
+            //                       onPressed: () {
+            //                         Navigator.of(context).pop();
+            //                       },
+            //                       child: Text('cancel'))
+            //                 ],
+            //               );
+            //             });
+            //         // _deleteTodo(_items[index]);
+            //       },
+            //     ),
+            //   ]),
+            // title: Text(
+            //   _items[index].title,
+            //   style: _items[index].isDone
+            //       ? TextStyle(
+            //           decoration: TextDecoration.lineThrough,
+            //           fontStyle: FontStyle.italic)
+            //       : null,
+            // ),
+            // );
+            // },
+
+            // shrinkWrap: true,
+            // children: _items.map((todo) => _buildItemWidget(todo)).toList(),
+            // ),
           ]),
           onPanelSlide: (double pos) => setState(() {
             _fabHeight =
@@ -234,6 +205,7 @@ class _CalendarState extends State<Calendar> {
                   this.focusedDay = focusedDay;
                 });
                 print(selectedDay);
+                print(selectedEvents[selectedDay]);
               },
               selectedDayPredicate: (DateTime day) {
                 // selectedDay 와 동일한 날짜의 모양을 바꿔줍니다.

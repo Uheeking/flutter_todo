@@ -26,12 +26,12 @@ class _CalendarState extends State<Calendar> {
   );
   DateTime focusedDay = DateTime.now();
 
-  Map<DateTime, List<Event>> events = {
-    DateTime(2023, 1, 11): [Event('title'), Event('title2')],
+  Map<DateTime, List<Event>> selectedEvents = {
+    DateTime.utc(2023, 1, 11): [Event('title'), Event('title2')],
   };
 
   List<Event> _getEventsForDay(DateTime day) {
-    return events[day] ?? [];
+    return selectedEvents[day] ?? [];
   }
 
   final _items = <ToDo>[];
@@ -39,11 +39,17 @@ class _CalendarState extends State<Calendar> {
   void _addTodo(ToDo todo) {
     setState(() {
       _items.add(todo);
-      events[selectedDay]?.add(Event(todo.title));
     });
-    print(_getEventsForDay(selectedDay).map((Event event) => ListTile(
-          title: Text(event.title),
-        )));
+    print(todo);
+    print(todo.title);
+    print(selectedDay);
+    // selectedEvents[selectedDay]?.add(Event(todo.title));
+    if (selectedEvents[selectedDay] != null) {
+      selectedEvents[selectedDay]?.add(Event(todo.title));
+    } else {
+      selectedEvents[selectedDay] = [(Event(todo.title))];
+    }
+    print(selectedEvents);
   }
 
   void _deleteTodo(ToDo todo) {

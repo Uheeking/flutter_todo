@@ -129,7 +129,27 @@ class _CalendarState extends State<Calendar> {
             ),
             ..._getEventsForDay(selectedDay).map((ToDo todo) => ListTile(
                 onTap: () {
-                  _checkTodo(todo);
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('일정'),
+                          content: SingleChildScrollView(
+                              child: ListBody(
+                            children: [
+                              Text(todo.description),
+                            ],
+                          )),
+                          actions: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('ok')),
+                          ],
+                        );
+                      });
+                  // _checkTodo(todo);
                 },
                 trailing: Row(mainAxisSize: MainAxisSize.min, children: [
                   IconButton(

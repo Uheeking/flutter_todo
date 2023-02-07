@@ -27,30 +27,26 @@ class _CalendarState extends State<Calendar> {
   DateTime focusedDay = DateTime.now();
   late String dateStr = '';
 
-  Map<DateTime, List<ToDo>> selectedEvents = {
-    DateTime.utc(2023, 1, 11): [
-      ToDo('title', 'description'),
-      ToDo('title2', 'description2')
-    ],
+  Map<DateTime, List<Event>> selectedEvents = {
+    DateTime.utc(2023, 1, 11): [Event('title'), Event('title2')],
   };
 
-  List<ToDo> _getEventsForDay(DateTime day) {
+  List<Event> _getEventsForDay(DateTime day) {
     return selectedEvents[day] ?? [];
   }
 
   final _items = <ToDo>[];
 
   void _addTodo(ToDo todo) {
-    if (selectedEvents[selectedDay] != null) {
-      selectedEvents[selectedDay]?.add(ToDo(todo.title, todo.description));
-    } else {
-      selectedEvents[selectedDay] = [(ToDo(todo.title, todo.description))];
-    }
+    setState(() {
+      _items.add(todo);
+    });
   }
 
   void _deleteTodo(ToDo todo) {
-    // return print(selectedEvents[selectedDay]);
-    selectedEvents[selectedDay]?.remove(ToDo(todo.title, todo.description));
+    setState(() {
+      _items.remove(todo);
+    });
   }
 
   void _checkTodo(ToDo todo) {
@@ -71,8 +67,6 @@ class _CalendarState extends State<Calendar> {
     if (result?.todo != null && result?.description != null) {
       _addTodo(ToDo(result.todo!, result.description!));
     }
-    print(selectedEvents[selectedDay]);
-    print(selectedEvents);
   }
 
   BorderRadiusGeometry radius = BorderRadius.only(
@@ -110,6 +104,9 @@ class _CalendarState extends State<Calendar> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50), color: Colors.black),
             ),
+            // const SizedBox(
+            //   height: 12.0,
+            // ),
             const Text(
               "일정 보기",
               style: TextStyle(
@@ -124,56 +121,40 @@ class _CalendarState extends State<Calendar> {
                 fontSize: 20.0,
               ),
             ),
-            ..._getEventsForDay(selectedDay).map((ToDo todo) => ListTile(
-                onTap: () {
-                  _checkTodo(todo);
-                },
-                trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                  IconButton(
-                    color: Colors.blue,
-                    icon: Icon(Icons.check),
-                    onPressed: () {
-                      _checkTodo(todo);
-                    },
-                  ),
-                  IconButton(
+            ListView.builder(
+              itemCount: _items.length,
+              itemBuilder: (BuildContext context, index) {
+                return ListTile(
+                  onTap: () {
+                    _checkTodo(_items[index]);
+                  },
+                  trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                    IconButton(
+                      color: Colors.blue,
+                      icon: Icon(Icons.check),
+                      onPressed: () {
+                        _checkTodo(_items[index]);
+                      },
+                    ),
+                    IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('일정 삭제'),
-                                content: SingleChildScrollView(
-                                    child: ListBody(
-                                  children: [
-                                    Text('일정을 삭제하시겠습니까?'),
-                                  ],
-                                )),
-                                actions: [
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        _deleteTodo(
-                                            ToDo(todo.title, todo.description));
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text('ok')),
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text('cancel'))
-                                ],
-                              );
-                            });
-                      })
-                ]),
-                title: Text(todo.title,
-                    style: todo.isDone
-                        ? const TextStyle(
+                        _deleteTodo(_items[index]);
+                      },
+                    ),
+                  ]),
+                  title: Text(
+                    _items[index].title,
+                    style: _items[index].isDone
+                        ? TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontStyle: FontStyle.italic)
-                        : null)))
+                        : null,
+                  ),
+                );
+              },
+              shrinkWrap: true,
+            ),
           ]),
           onPanelSlide: (double pos) => setState(() {
             _fabHeight =
@@ -190,8 +171,11 @@ class _CalendarState extends State<Calendar> {
                 setState(() {
                   this.selectedDay = selectedDay;
                   this.focusedDay = focusedDay;
-                  dateStr = DateFormat('yyyy년 MM월 dd일').format(selectedDay);
+                  this.dateStr =
+                      DateFormat('yyyy년 MM월 dd일').format(selectedDay);
                 });
+                print(selectedDay);
+                print(selectedEvents[selectedDay]);
               },
               selectedDayPredicate: (DateTime day) {
                 // selectedDay 와 동일한 날짜의 모양을 바꿔줍니다.
@@ -199,11 +183,12 @@ class _CalendarState extends State<Calendar> {
               },
               calendarFormat: _calendarFormat,
               onFormatChanged: (format) {
+                print(format);
                 setState(() {
                   _calendarFormat = format;
                 });
               },
-              calendarStyle: const CalendarStyle(
+              calendarStyle: CalendarStyle(
                 markerSize: 10.0,
                 markerDecoration:
                     BoxDecoration(color: Colors.red, shape: BoxShape.circle),
@@ -219,12 +204,19 @@ class _CalendarState extends State<Calendar> {
             onPressed: () {
               _navigateAndDisplaySelection(context);
             },
-            child: const Icon(Icons.add),
+            child: Icon(Icons.add),
           ),
         ),
       ]),
     );
   }
+}
+
+class Event {
+  bool isDone = false;
+  String title;
+
+  Event(this.title);
 }
 
 class ToDo {

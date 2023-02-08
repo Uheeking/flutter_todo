@@ -18,7 +18,7 @@ class _CalendarState extends State<Calendar> {
   final double _initFabHeight = 120.0;
   double _fabHeight = 0;
   double _panelHeightOpen = 0;
-  double _panelHeightClosed = 400.0;
+  double _panelHeightClosed = 280.0;
 
   DateTime selectedDay = DateTime(
     DateTime.now().year,
@@ -96,6 +96,7 @@ class _CalendarState extends State<Calendar> {
     return Scaffold(
       body: Stack(children: [
         SlidingUpPanel(
+          maxHeight: MediaQuery.of(context).size.height / 1.8,
           parallaxEnabled: true,
           parallaxOffset: .5,
           borderRadius: const BorderRadius.only(
@@ -103,8 +104,8 @@ class _CalendarState extends State<Calendar> {
           panelBuilder: (sc) => Column(children: [
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 10),
-              width: 70,
-              height: 5,
+              width: 60,
+              height: 4,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50), color: Colors.black),
             ),

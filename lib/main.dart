@@ -21,11 +21,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// GlobalKey<BottomNavi> globalKey = GlobalKey();
-
 class Second extends StatefulWidget {
-  const Second({super.key, this.index});
-  final index;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
@@ -33,22 +29,25 @@ class Second extends StatefulWidget {
       'Index 0: Home',
       style: optionStyle,
     ),
-    Calendar()
+    // Calendar()
   ];
 
   @override
-  State<Second> createState() => _SecondState();
+  State<Second> createState() => SecondState();
+
+  static SecondState of(BuildContext context) =>
+      context.findAncestorStateOfType<SecondState>();
 }
 
-class _SecondState extends State<Second> {
+class SecondState extends State<Second> {
   int _selectedIndex = 0;
 
-  // void _onItemTapped(int index) {
-  //   setState(() {
-  //     _selectedIndex = index;
-  //   });
-  //   print(index);
-  // }
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    print(index);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +58,6 @@ class _SecondState extends State<Second> {
             'Todo List',
           ),
         ),
-        body: widget.index == 0
-            ? Center(
-                child: Second._widgetOptions.elementAt(0),
-              )
-            : Center(
-                child: Second._widgetOptions.elementAt(1),
-              ),
-        bottomNavigationBar: const BottomNavi());
+        bottomNavigationBar: BottomNavi());
   }
 }

@@ -1,11 +1,41 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
+import 'package:todo/main.dart';
 
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key});
+class BottomNavi extends StatefulWidget {
+  const BottomNavi({super.key});
+
+  @override
+  State<BottomNavi> createState() => _BottomNaviState();
+}
+
+class _BottomNaviState extends State<BottomNavi> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    // print(index);
+    Second(index: _selectedIndex);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: Colors.red,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_month_outlined),
+            label: '캘린더',
+            backgroundColor: Colors.green,
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue,
+        onTap: _onItemTapped);
   }
 }

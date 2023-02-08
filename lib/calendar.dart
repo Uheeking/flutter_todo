@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:todo/bottomnavi.dart';
 import 'package:todo/pages/todoAdd.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:intl/intl.dart';
@@ -93,12 +94,6 @@ class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Todo List',
-        ),
-      ),
       body: Stack(children: [
         SlidingUpPanel(
           parallaxEnabled: true,
@@ -245,6 +240,7 @@ class _CalendarState extends State<Calendar> {
           ),
         ),
       ]),
+      // bottomNavigationBar: const BottomNavi(),
     );
   }
 }

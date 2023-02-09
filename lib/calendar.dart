@@ -89,14 +89,15 @@ class _CalendarState extends State<Calendar> {
 
       if (result?.todo != null && result?.description != null) {
         _addTodo(ToDo(result.todo!, result.description!));
+        controller.addTodo(ToDos(result.todo!, result.description!));
       }
 
       print(selectedEvents);
+      print(controller.selectedEvents);
     }
 
     return Scaffold(
       body: Stack(children: [
-        Text('uheekng'),
         SlidingUpPanel(
           maxHeight: MediaQuery.of(context).size.height / 1.8,
           parallaxEnabled: true,

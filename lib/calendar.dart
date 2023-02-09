@@ -150,19 +150,19 @@ class _CalendarState extends State<Calendar> {
                 trailing: Row(mainAxisSize: MainAxisSize.min, children: [
                   IconButton(
                     color: Colors.blue,
-                    icon: Icon(Icons.check),
+                    icon: const Icon(Icons.check),
                     onPressed: () {
                       _checkTodo(todo);
                     },
                   ),
                   IconButton(
-                      icon: Icon(Icons.delete),
+                      icon: const Icon(Icons.delete),
                       onPressed: () {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text('일정 삭제'),
+                                title: const Text('일정 삭제'),
                                 content: SingleChildScrollView(
                                     child: ListBody(
                                   children: [

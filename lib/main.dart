@@ -3,7 +3,8 @@ import 'package:todo/calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:get/get.dart';
 
-import 'bottomnavi.dart';
+import 'package:todo/bottomnavi.dart';
+import 'package:todo/controller/IndexController.dart';
 
 void main() async {
   await initializeDateFormatting();
@@ -22,6 +23,11 @@ class MyApp extends StatelessWidget {
 }
 
 class Second extends StatefulWidget {
+  @override
+  SecondState createState() => SecondState();
+}
+
+class SecondState extends State<Second> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
@@ -29,35 +35,20 @@ class Second extends StatefulWidget {
       'Index 0: Home',
       style: optionStyle,
     ),
-    // Calendar()
+    Calendar(),
   ];
 
   @override
-  State<Second> createState() => SecondState();
-
-  static SecondState of(BuildContext context) =>
-      context.findAncestorStateOfType<SecondState>();
-}
-
-class SecondState extends State<Second> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    print(index);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final controller = Get.put(IndexController());
+
+    return Obx(() => Scaffold(
         appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            'Todo List',
-          ),
+          title: const Text('BottomNavigationBar Sample'),
         ),
-        bottomNavigationBar: BottomNavi());
+        body: Center(
+          child: _widgetOptions.elementAt(controller.selectedIndex.value),
+        ),
+        bottomNavigationBar: const BottomNavi()));
   }
 }

@@ -3,9 +3,11 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:todo/bottomnavi.dart';
+import 'package:todo/controller/TodoController.dart';
 import 'package:todo/pages/todoAdd.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({super.key});
@@ -39,8 +41,6 @@ class _CalendarState extends State<Calendar> {
     return selectedEvents[day] ?? [];
   }
 
-  final _items = <ToDo>[];
-
   void _addTodo(ToDo todo) {
     setState(() {
       if (selectedEvents[selectedDay] != null) {
@@ -65,20 +65,6 @@ class _CalendarState extends State<Calendar> {
 
   var _calendarFormat = CalendarFormat.month;
 
-  _navigateAndDisplaySelection(BuildContext context) async {
-    DateTime focusedDay = DateTime.now();
-    var result = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => TodoAdd(day: selectedDay)),
-    );
-
-    if (result?.todo != null && result?.description != null) {
-      _addTodo(ToDo(result.todo!, result.description!));
-    }
-    print(selectedEvents[selectedDay]);
-    print(selectedEvents);
-  }
-
   BorderRadiusGeometry radius = BorderRadius.only(
     topLeft: Radius.circular(24.0),
     topRight: Radius.circular(24.0),
@@ -93,8 +79,24 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(TodoController());
+    _navigateAndDisplaySelection(BuildContext context) async {
+      DateTime focusedDay = DateTime.now();
+      var result = await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => TodoAdd(day: selectedDay)),
+      );
+
+      if (result?.todo != null && result?.description != null) {
+        _addTodo(ToDo(result.todo!, result.description!));
+      }
+
+      print(selectedEvents);
+    }
+
     return Scaffold(
       body: Stack(children: [
+        Text('uheekng'),
         SlidingUpPanel(
           maxHeight: MediaQuery.of(context).size.height / 1.8,
           parallaxEnabled: true,
@@ -129,7 +131,7 @@ class _CalendarState extends State<Calendar> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text('일정'),
+                          title: Text(todo.title),
                           content: SingleChildScrollView(
                               child: ListBody(
                             children: [
@@ -145,7 +147,6 @@ class _CalendarState extends State<Calendar> {
                           ],
                         );
                       });
-                  // _checkTodo(todo);
                 },
                 trailing: Row(mainAxisSize: MainAxisSize.min, children: [
                   IconButton(
@@ -165,7 +166,7 @@ class _CalendarState extends State<Calendar> {
                                 title: const Text('일정 삭제'),
                                 content: SingleChildScrollView(
                                     child: ListBody(
-                                  children: [
+                                  children: const [
                                     Text('일정을 삭제하시겠습니까?'),
                                   ],
                                 )),
@@ -175,12 +176,12 @@ class _CalendarState extends State<Calendar> {
                                         _deleteTodo(todo);
                                         Navigator.of(context).pop();
                                       },
-                                      child: Text('ok')),
+                                      child: const Text('ok')),
                                   ElevatedButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
-                                      child: Text('cancel'))
+                                      child: const Text('cancel'))
                                 ],
                               );
                             });
@@ -241,7 +242,6 @@ class _CalendarState extends State<Calendar> {
           ),
         ),
       ]),
-      // bottomNavigationBar: const BottomNavi(),
     );
   }
 }

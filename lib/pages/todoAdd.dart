@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 
 class TodoAdd extends StatefulWidget {
   final DateTime day;
-  // Datas datas = new Datas();
   const TodoAdd({super.key, required this.day});
 
   @override
@@ -104,23 +103,47 @@ class _TodoAddState extends State<TodoAdd> {
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 2.4,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: Colors.grey)),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          const Icon(Icons.calendar_today),
-                          Text(
-                            date,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          )
-                        ]),
-                  ),
+                  child: OutlinedButton(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 2.5,
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Icon(Icons.calendar_today),
+                            Text(
+                              date,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ),
+                      onPressed: () {
+                        // _selectDate(contesxt, state);
+                      }),
                 ),
+                // Align(
+                //   alignment: Alignment.centerLeft,
+                //   child: Container(
+                //     width: MediaQuery.of(context).size.width / 2.4,
+                //     height: 50,
+                //     decoration: BoxDecoration(
+                //         border: Border.all(width: 1, color: Colors.grey)),
+                //     child: Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //         children: [
+                //           const Icon(Icons.calendar_today),
+                //           Text(
+                //             date,
+                //             style: const TextStyle(
+                //                 fontWeight: FontWeight.bold, fontSize: 16),
+                //           )
+                //         ]),
+                //   ),
+                // ),
                 const SizedBox(
                   height: 80,
                 ),
@@ -162,6 +185,18 @@ class _TodoAddState extends State<TodoAdd> {
       ),
     );
   }
+
+  // Future<void> _selectDate(BuildContext context, TodoState state) async {
+  //   DateTime d = await showDatePicker(
+  //     context: context,
+  //     initialDate: DateTime.now(),
+  //     firstDate: DateTime(2020),
+  //     lastDate: DateTime(2050),
+  //   );
+
+  // selectDate = DateFormat('yyyy-MM-dd').format(d);
+  // _todoBloc.add(AddDateChanged(date: selectDate));
+  // }
 }
 
 class Datas {

@@ -44,7 +44,8 @@ class SecondState extends State<Second> {
 
     return Obx(() => Scaffold(
         appBar: AppBar(
-          title: const Text('BottomNavigationBar Sample'),
+          centerTitle: true,
+          title: const Text('Todo List'),
         ),
         body: Center(
           child: _widgetOptions.elementAt(controller.selectedIndex.value),

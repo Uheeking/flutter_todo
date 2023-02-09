@@ -9,7 +9,7 @@ class ToDos {
 }
 
 class TodoController extends GetxController {
-  String uhee = 'uhee';
+  DateTime focusedDay = DateTime.now();
   Map<DateTime, List<ToDos>> selectedEvents = {};
   List<ToDos> getEventsForDay(DateTime day) {
     return selectedEvents[day] ?? [];
@@ -27,16 +27,19 @@ class TodoController extends GetxController {
     } else {
       selectedEvents[selectedDay] = [(ToDos(todo.title, todo.description))];
     }
+    print(selectedEvents);
     update();
   }
 
   void deleteTodo(ToDos todo) {
     selectedEvents[selectedDay]?.remove(todo);
+    print(selectedEvents);
     update();
   }
 
   void checkTodo(ToDos todo) {
     todo.isDone = !todo.isDone;
+    print(selectedEvents);
     update();
   }
 }

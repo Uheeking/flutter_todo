@@ -25,13 +25,6 @@ class _CalendarState extends State<Calendar> {
   double _panelHeightOpen = 0;
   double _panelHeightClosed = 280.0;
 
-  // DateTime selectedDay = DateTime.utc(
-  //   DateTime.now().year,
-  //   DateTime.now().month,
-  //   DateTime.now().day,
-  // );
-  late String dateStr = '';
-
   var _calendarFormat = CalendarFormat.month;
 
   BorderRadiusGeometry radius = BorderRadius.only(
@@ -56,10 +49,13 @@ class _CalendarState extends State<Calendar> {
       );
 
       if (result?.todo != null && result?.description != null) {
-        controller
-            .addTodoAll(ToDoAll(dateStr, result.todo!, result.description!));
+        controller.dateStr =
+            DateFormat('yyyy년 MM월 dd일').format(controller.selectedDay);
+        controller.addTodoAll(
+            ToDoAll(controller.dateStr, result.todo!, result.description!));
         controller.addTodo(ToDos(result.todo!, result.description!));
       }
+
       print(controller.selectedDay);
       print(controller.focusedDay);
 
@@ -94,7 +90,7 @@ class _CalendarState extends State<Calendar> {
                 ),
               ),
               Text(
-                dateStr,
+                controller.dateStr,
                 style: const TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 20.0,
@@ -115,16 +111,11 @@ class _CalendarState extends State<Calendar> {
                 onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
                   // 선택된 날짜의 상태를 갱신합니다.
                   setState(() {
-                    this.controller.selectedDay = selectedDay;
-                    this.controller.focusedDay = focusedDay;
-
                     controller.selectedDay = selectedDay;
                     controller.focusedDay = focusedDay;
 
-                    // if (condition) {
-
-                    // }
-                    dateStr = DateFormat('yyyy년 MM월 dd일').format(selectedDay);
+                    controller.dateStr = DateFormat('yyyy년 MM월 dd일')
+                        .format(controller.selectedDay);
                   });
                 },
                 selectedDayPredicate: (DateTime day) {

@@ -30,6 +30,7 @@ class TodoController extends GetxController {
     DateTime.now().day,
   );
   DateTime focusedDay = DateTime.now();
+  late String dateStr = '';
 
   void addTodoAll(ToDoAll todo) {
     items.add(todo);

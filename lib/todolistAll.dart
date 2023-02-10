@@ -14,21 +14,21 @@ class TodolistAll extends StatelessWidget {
     return GetBuilder<TodoController>(builder: (controller) {
       return Container(
         child: Column(children: [
-          ...controTodo.items.map((ToDoAll todo) => ListTile(
+          ...controTodo.items.map((ToDoAll todoall) => ListTile(
               onTap: () {
                 showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text(todo.title),
+                        title: Text(todoall.title),
                         content: SingleChildScrollView(
                             child: ListBody(
                           children: [
-                            Text(todo.description),
+                            Text(todoall.description),
                             SizedBox(
                               height: 30,
                             ),
-                            Text(todo.time + '에 작성'),
+                            Text(todoall.time + '에 작성'),
                           ],
                         )),
                         actions: [
@@ -46,7 +46,7 @@ class TodolistAll extends StatelessWidget {
                   color: Colors.blue,
                   icon: const Icon(Icons.check),
                   onPressed: () {
-                    // controTodo.checkTodo(todo);
+                    controTodo.checkTodoAll(todoall);
                   },
                 ),
                 IconButton(
@@ -66,7 +66,7 @@ class TodolistAll extends StatelessWidget {
                               actions: [
                                 ElevatedButton(
                                     onPressed: () {
-                                      // controTodo.deleteTodo(todo);
+                                      controTodo.deleteTodoAll(todoall);
                                       Navigator.of(context).pop();
                                     },
                                     child: const Text('ok')),
@@ -80,8 +80,8 @@ class TodolistAll extends StatelessWidget {
                           });
                     })
               ]),
-              title: Text(todo.title,
-                  style: todo.isDone
+              title: Text(todoall.title,
+                  style: todoall.isDone
                       ? const TextStyle(
                           decoration: TextDecoration.lineThrough,
                           fontStyle: FontStyle.italic)

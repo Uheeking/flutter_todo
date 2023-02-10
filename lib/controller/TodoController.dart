@@ -32,9 +32,21 @@ class TodoController extends GetxController {
   DateTime focusedDay = DateTime.now();
   late String dateStr = '';
 
-  void addTodoAll(ToDoAll todo) {
-    items.add(todo);
+  void addTodoAll(ToDoAll todoall) {
+    items.add(todoall);
     print(items.toString() + 'addtodoall');
+    update();
+  }
+
+  void deleteTodoAll(ToDoAll todoall) {
+    items.remove(todoall);
+    print(selectedEvents);
+    update();
+  }
+
+  void checkTodoAll(ToDoAll todoall) {
+    todoall.isDone = !todoall.isDone;
+    print(selectedEvents);
     update();
   }
 

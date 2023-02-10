@@ -12,82 +12,100 @@ class TodolistAll extends StatelessWidget {
     final controTodo = Get.put(TodoController());
 
     return GetBuilder<TodoController>(builder: (controller) {
-      return Container(
-        child: Column(children: [
-          ...controTodo.items.map((ToDoAll todoall) => ListTile(
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text(todoall.title),
-                        content: SingleChildScrollView(
-                            child: ListBody(
-                          children: [
-                            Text(todoall.description),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Text(todoall.time + '에 작성'),
-                          ],
-                        )),
-                        actions: [
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('ok')),
-                        ],
-                      );
-                    });
-              },
-              trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                IconButton(
-                  color: Colors.blue,
-                  icon: const Icon(Icons.check),
-                  onPressed: () {
-                    controTodo.checkTodoAll(todoall);
-                  },
+      return controTodo.items.length < 1
+          ? Container(
+              child: Column(
+              children: const [
+                Text(
+                  '일정이 없습니다. ',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
                 ),
-                IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
+                Text('일정을 추가하시려면 캘린더탭에 들어가 추가해주세요.')
+              ],
+            )
+
+              // Text(
+              //   '일정이 없습니다. ',
+              //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+              // ),
+              )
+          : Container(
+              child: Column(children: [
+                ...controTodo.items.map((ToDoAll todoall) => (ListTile(
+                    onTap: () {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: const Text('일정 삭제'),
+                              title: Text(todoall.title),
                               content: SingleChildScrollView(
                                   child: ListBody(
-                                children: const [
-                                  Text('일정을 삭제하시겠습니까?'),
+                                children: [
+                                  Text(todoall.description),
+                                  SizedBox(
+                                    height: 30,
+                                  ),
+                                  Text(todoall.time + '에 작성'),
                                 ],
                               )),
                               actions: [
                                 ElevatedButton(
                                     onPressed: () {
-                                      controTodo.deleteTodoAll(todoall);
                                       Navigator.of(context).pop();
                                     },
                                     child: const Text('ok')),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('cancel'))
                               ],
                             );
                           });
-                    })
+                    },
+                    trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                      IconButton(
+                        color: Colors.blue,
+                        icon: const Icon(Icons.check),
+                        onPressed: () {
+                          controTodo.checkTodoAll(todoall);
+                          print(todoall);
+                        },
+                      ),
+                      IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('일정 삭제'),
+                                    content: SingleChildScrollView(
+                                        child: ListBody(
+                                      children: const [
+                                        Text('일정을 삭제하시겠습니까?'),
+                                      ],
+                                    )),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            controTodo.deleteTodoAll(todoall);
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('ok')),
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('cancel'))
+                                    ],
+                                  );
+                                });
+                          })
+                    ]),
+                    title: Text(todoall.title,
+                        style: todoall.isDone
+                            ? const TextStyle(
+                                decoration: TextDecoration.lineThrough,
+                                fontStyle: FontStyle.italic)
+                            : null))))
               ]),
-              title: Text(todoall.title,
-                  style: todoall.isDone
-                      ? const TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                          fontStyle: FontStyle.italic)
-                      : null))),
-        ]),
-      );
+            );
     });
   }
 }

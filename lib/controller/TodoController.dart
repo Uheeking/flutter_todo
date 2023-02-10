@@ -41,6 +41,7 @@ class TodoController extends GetxController {
   void deleteTodoAll(ToDoAll todoall) {
     items.remove(todoall);
     print(selectedEvents);
+    print(items);
     update();
   }
 

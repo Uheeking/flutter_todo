@@ -8,6 +8,7 @@ import 'package:todo/pages/todoAdd.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
+import 'package:todo/todolistAll.dart';
 import 'package:todo/todolist.dart';
 
 class Calendar extends StatefulWidget {
@@ -30,38 +31,6 @@ class _CalendarState extends State<Calendar> {
   );
   DateTime focusedDay = DateTime.now();
   late String dateStr = '';
-
-  // Map<DateTime, List<ToDo>> selectedEvents = {
-  //   DateTime.utc(2023, 1, 11): [
-  //     ToDo('title', 'description'),
-  //   ],
-  // };
-
-  // List<ToDo> _getEventsForDay(DateTime day) {
-  //   return selectedEvents[day] ?? [];
-  // }
-
-  // void _addTodo(ToDo todo) {
-  //   setState(() {
-  //     if (selectedEvents[selectedDay] != null) {
-  //       selectedEvents[selectedDay]?.add(ToDo(todo.title, todo.description));
-  //     } else {
-  //       selectedEvents[selectedDay] = [(ToDo(todo.title, todo.description))];
-  //     }
-  //   });
-  // }
-
-  // void _deleteTodo(ToDo todo) {
-  //   setState(() {
-  //     selectedEvents[selectedDay]?.remove(todo);
-  //   });
-  // }
-
-  // void _checkTodo(ToDo todo) {
-  //   setState(() {
-  //     todo.isDone = !todo.isDone;
-  //   });
-  // }
 
   var _calendarFormat = CalendarFormat.month;
 
@@ -88,7 +57,8 @@ class _CalendarState extends State<Calendar> {
       );
 
       if (result?.todo != null && result?.description != null) {
-        // _addTodo(ToDo(result.todo!, result.description!));
+        controller.addTodoAll(
+            ToDoAll(selectedDay, result.todo!, result.description!));
         controller.addTodo(ToDos(result.todo!, result.description!));
       }
 
@@ -129,75 +99,7 @@ class _CalendarState extends State<Calendar> {
                   fontSize: 20.0,
                 ),
               ),
-              Todolist()
-              // ..._getEventsForDay(selectedDay).map((ToDo todo) => ListTile(
-              //     onTap: () {
-              //       showDialog(
-              //           context: context,
-              //           builder: (BuildContext context) {
-              //             return AlertDialog(
-              //               title: Text(todo.title),
-              //               content: SingleChildScrollView(
-              //                   child: ListBody(
-              //                 children: [
-              //                   Text(todo.description),
-              //                 ],
-              //               )),
-              //               actions: [
-              //                 ElevatedButton(
-              //                     onPressed: () {
-              //                       Navigator.of(context).pop();
-              //                     },
-              //                     child: Text('ok')),
-              //               ],
-              //             );
-              //           });
-              //     },
-              //     trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-              //       IconButton(
-              //         color: Colors.blue,
-              //         icon: const Icon(Icons.check),
-              //         onPressed: () {
-              //           _checkTodo(todo);
-              //         },
-              //       ),
-              //       IconButton(
-              //           icon: const Icon(Icons.delete),
-              //           onPressed: () {
-              //             showDialog(
-              //                 context: context,
-              //                 builder: (BuildContext context) {
-              //                   return AlertDialog(
-              //                     title: const Text('일정 삭제'),
-              //                     content: SingleChildScrollView(
-              //                         child: ListBody(
-              //                       children: const [
-              //                         Text('일정을 삭제하시겠습니까?'),
-              //                       ],
-              //                     )),
-              //                     actions: [
-              //                       ElevatedButton(
-              //                           onPressed: () {
-              //                             _deleteTodo(todo);
-              //                             Navigator.of(context).pop();
-              //                           },
-              //                           child: const Text('ok')),
-              //                       ElevatedButton(
-              //                           onPressed: () {
-              //                             Navigator.of(context).pop();
-              //                           },
-              //                           child: const Text('cancel'))
-              //                     ],
-              //                   );
-              //                 });
-              //           })
-              //     ]),
-              //     title: Text(todo.title,
-              //         style: todo.isDone
-              //             ? const TextStyle(
-              //                 decoration: TextDecoration.lineThrough,
-              //                 fontStyle: FontStyle.italic)
-              //             : null)))
+              const Todolist()
             ]),
             onPanelSlide: (double pos) => setState(() {
               _fabHeight = pos * (_panelHeightClosed - _panelHeightOpen) +

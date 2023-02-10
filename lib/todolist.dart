@@ -33,7 +33,7 @@ class Todolist extends StatelessWidget {
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
-                                  child: Text('ok')),
+                                  child: const Text('ok')),
                             ],
                           );
                         });

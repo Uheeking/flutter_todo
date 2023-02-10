@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 class ToDoAll {
   bool isDone = false;
-  DateTime time;
+  String time;
   String title;
   String description;
 
@@ -18,28 +18,22 @@ class ToDos {
 }
 
 class TodoController extends GetxController {
-  DateTime focusedDay = DateTime.now();
   Map<DateTime, List<ToDos>> selectedEvents = {};
   final items = <ToDoAll>[];
   List<ToDos> getEventsForDay(DateTime day) {
     return selectedEvents[day] ?? [];
   }
 
-  DateTime selectedDay = DateTime(
+  DateTime selectedDay = DateTime.utc(
     DateTime.now().year,
     DateTime.now().month,
     DateTime.now().day,
   );
+  DateTime focusedDay = DateTime.now();
 
   void addTodoAll(ToDoAll todo) {
     items.add(todo);
-    print(items);
-    // if (items[selectedDay] != null) {
-    //   items[selectedDay]?.add(ToDos(todo.title, todo.description));
-    // } else {
-    //   items[selectedDay] = [(ToDos(todo.title, todo.description))];
-    // }
-    // print(selectedEvents);
+    print(items.toString() + 'addtodoall');
     update();
   }
 
@@ -49,7 +43,7 @@ class TodoController extends GetxController {
     } else {
       selectedEvents[selectedDay] = [(ToDos(todo.title, todo.description))];
     }
-    print(selectedEvents);
+    print(selectedEvents.toString() + ' sssss');
     update();
   }
 

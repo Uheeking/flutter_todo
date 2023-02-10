@@ -19,17 +19,17 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
+  final controller = Get.put(TodoController());
   final double _initFabHeight = 120.0;
   double _fabHeight = 0;
   double _panelHeightOpen = 0;
   double _panelHeightClosed = 280.0;
 
-  DateTime selectedDay = DateTime(
-    DateTime.now().year,
-    DateTime.now().month,
-    DateTime.now().day,
-  );
-  DateTime focusedDay = DateTime.now();
+  // DateTime selectedDay = DateTime.utc(
+  //   DateTime.now().year,
+  //   DateTime.now().month,
+  //   DateTime.now().day,
+  // );
   late String dateStr = '';
 
   var _calendarFormat = CalendarFormat.month;
@@ -48,19 +48,20 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(TodoController());
     _navigateAndDisplaySelection(BuildContext context) async {
-      DateTime focusedDay = DateTime.now();
       var result = await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => TodoAdd(day: selectedDay)),
+        MaterialPageRoute(
+            builder: (context) => TodoAdd(day: controller.selectedDay)),
       );
 
       if (result?.todo != null && result?.description != null) {
-        controller.addTodoAll(
-            ToDoAll(selectedDay, result.todo!, result.description!));
+        controller
+            .addTodoAll(ToDoAll(dateStr, result.todo!, result.description!));
         controller.addTodo(ToDos(result.todo!, result.description!));
       }
+      print(controller.selectedDay);
+      print(controller.focusedDay);
 
       // print(selectedEvents);
       // print(controller.selectedEvents);
@@ -110,22 +111,25 @@ class _CalendarState extends State<Calendar> {
                 locale: 'ko_KR',
                 firstDay: DateTime(2022, 1, 1),
                 lastDay: DateTime(2023, 12, 31),
-                focusedDay: focusedDay,
+                focusedDay: controller.focusedDay,
                 onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
                   // 선택된 날짜의 상태를 갱신합니다.
                   setState(() {
-                    this.selectedDay = selectedDay;
-                    this.focusedDay = focusedDay;
+                    this.controller.selectedDay = selectedDay;
+                    this.controller.focusedDay = focusedDay;
 
                     controller.selectedDay = selectedDay;
                     controller.focusedDay = focusedDay;
 
+                    // if (condition) {
+
+                    // }
                     dateStr = DateFormat('yyyy년 MM월 dd일').format(selectedDay);
                   });
                 },
                 selectedDayPredicate: (DateTime day) {
                   // selectedDay 와 동일한 날짜의 모양을 바꿔줍니다.
-                  return isSameDay(selectedDay, day);
+                  return isSameDay(controller.selectedDay, day);
                 },
                 calendarFormat: _calendarFormat,
                 onFormatChanged: (format) {

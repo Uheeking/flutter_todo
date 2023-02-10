@@ -25,7 +25,10 @@ class TodolistAll extends StatelessWidget {
                             child: ListBody(
                           children: [
                             Text(todo.description),
-                            // Text(todo.),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Text(todo.time + '에 작성'),
                           ],
                         )),
                         actions: [
@@ -83,7 +86,7 @@ class TodolistAll extends StatelessWidget {
                           decoration: TextDecoration.lineThrough,
                           fontStyle: FontStyle.italic)
                       : null))),
-          ]),
+        ]),
       );
     });
   }

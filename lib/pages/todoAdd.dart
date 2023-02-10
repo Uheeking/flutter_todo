@@ -156,8 +156,6 @@ class _TodoAddState extends State<TodoAdd> {
                         '폼 저장이 완료되었습니다!',
                         backgroundColor: Colors.white,
                       );
-                      print(todo);
-                      print(description);
                       Navigator.pop(context, Datas(todo!, description!));
                     }
                   },

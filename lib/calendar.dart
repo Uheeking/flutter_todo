@@ -51,13 +51,12 @@ class _CalendarState extends State<Calendar> {
       if (result?.todo != null && result?.description != null) {
         controller.dateStr =
             DateFormat('yyyy년 MM월 dd일').format(controller.selectedDay);
-        controller.addTodoAll(
-            ToDoAll(controller.dateStr, result.todo!, result.description!));
-        controller.addTodo(ToDos(result.todo!, result.description!));
+        controller.addTodoAll(ToDoAll(controller.count, controller.dateStr,
+            result.todo!, result.description!));
+        controller.addTodo(
+            ToDos(controller.count, result.todo!, result.description!));
+        controller.count = controller.count + 1;
       }
-
-      print(controller.selectedDay);
-      print(controller.focusedDay);
 
       // print(selectedEvents);
       // print(controller.selectedEvents);
@@ -89,14 +88,14 @@ class _CalendarState extends State<Calendar> {
                   fontSize: 20.0,
                 ),
               ),
-              Text(
-                controller.dateStr,
-                style: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 20.0,
-                ),
-              ),
-              const Todolist()
+              // Text(
+              //   controller.dateStr,
+              //   style: const TextStyle(
+              //     fontWeight: FontWeight.normal,
+              //     fontSize: 20.0,
+              //   ),
+              // ),
+              Todolist(day: controller.selectedDay, time: controller.dateStr)
             ]),
             onPanelSlide: (double pos) => setState(() {
               _fabHeight = pos * (_panelHeightClosed - _panelHeightOpen) +

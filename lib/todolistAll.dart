@@ -15,6 +15,7 @@ class TodolistAll extends StatelessWidget {
       return controTodo.items.length < 1
           ? Container(
               child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: const [
                 Text(
                   '일정이 없습니다. ',
@@ -22,13 +23,7 @@ class TodolistAll extends StatelessWidget {
                 ),
                 Text('일정을 추가하시려면 캘린더탭에 들어가 추가해주세요.')
               ],
-            )
-
-              // Text(
-              //   '일정이 없습니다. ',
-              //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-              // ),
-              )
+            ))
           : Container(
               child: Column(children: [
                 ...controTodo.items.map((ToDoAll todoall) => (ListTile(
@@ -63,8 +58,9 @@ class TodolistAll extends StatelessWidget {
                         color: Colors.blue,
                         icon: const Icon(Icons.check),
                         onPressed: () {
-                          controTodo.checkTodoAll(todoall);
-                          print(todoall);
+                          // controTodo.checkTodoAll(todoall);
+                          // controTodo.checkTodo(
+                          //     ToDos(todoall.title, todoall.description));
                         },
                       ),
                       IconButton(
@@ -85,6 +81,9 @@ class TodolistAll extends StatelessWidget {
                                       ElevatedButton(
                                           onPressed: () {
                                             controTodo.deleteTodoAll(todoall);
+                                            // controTodo.deleteTodo(ToDos(
+                                            //     todoall.title,
+                                            //     todoall.description));
                                             Navigator.of(context).pop();
                                           },
                                           child: const Text('ok')),

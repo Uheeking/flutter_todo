@@ -2,22 +2,25 @@ import 'package:get/get.dart';
 
 class ToDoAll {
   bool isDone = false;
+  int count;
   String time;
   String title;
   String description;
 
-  ToDoAll(this.time, this.title, this.description);
+  ToDoAll(this.count, this.time, this.title, this.description);
 }
 
 class ToDos {
   bool isDone = false;
+  int count;
   String title;
   String description;
 
-  ToDos(this.title, this.description);
+  ToDos(this.count, this.title, this.description);
 }
 
 class TodoController extends GetxController {
+  int count = 0;
   Map<DateTime, List<ToDos>> selectedEvents = {};
   final items = <ToDoAll>[];
   List<ToDos> getEventsForDay(DateTime day) {
@@ -31,10 +34,12 @@ class TodoController extends GetxController {
   );
   DateTime focusedDay = DateTime.now();
   late String dateStr = '';
+  // indexOf
 
   void addTodoAll(ToDoAll todoall) {
     items.add(todoall);
-    print(items.toString() + 'addtodoall');
+    // count = count + 1;
+    print(items.toString() + ' addtodoall');
     update();
   }
 
@@ -45,19 +50,25 @@ class TodoController extends GetxController {
     update();
   }
 
-  void checkTodoAll(ToDoAll todoall) {
-    todoall.isDone = !todoall.isDone;
-    print(selectedEvents);
+  void checkTodoAll(count, isDone) {
+    items[count].isDone = isDone;
+    print(count);
+    print('checkTodoall');
+    print(isDone);
     update();
   }
 
   void addTodo(ToDos todo) {
     if (selectedEvents[selectedDay] != null) {
-      selectedEvents[selectedDay]?.add(ToDos(todo.title, todo.description));
+      selectedEvents[selectedDay]
+          ?.add(ToDos(todo.count, todo.title, todo.description));
     } else {
-      selectedEvents[selectedDay] = [(ToDos(todo.title, todo.description))];
+      selectedEvents[selectedDay] = [
+        (ToDos(todo.count, todo.title, todo.description))
+      ];
     }
-    print(selectedEvents.toString() + ' sssss');
+    print(selectedEvents.toString() + ' addtodo');
+    print(todo.title + todo.description);
     update();
   }
 
@@ -69,7 +80,8 @@ class TodoController extends GetxController {
 
   void checkTodo(ToDos todo) {
     todo.isDone = !todo.isDone;
-    print(selectedEvents);
+    print('checkTodo');
+    print(todo.isDone);
     update();
   }
 }

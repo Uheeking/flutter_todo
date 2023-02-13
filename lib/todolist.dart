@@ -53,11 +53,9 @@ class Todolist extends StatelessWidget {
                                 color: Colors.blue,
                                 icon: const Icon(Icons.check),
                                 onPressed: () {
-                                  controTodo.checkTodo(todo);
+                                  // controTodo.checkTodo(todo);
                                   controTodo.checkTodoAll(
                                       todo.count, todo.isDone);
-
-                                  // controTodo.items[index].
                                 },
                               ),
                               IconButton(
@@ -78,11 +76,7 @@ class Todolist extends StatelessWidget {
                                               ElevatedButton(
                                                   onPressed: () {
                                                     controTodo.deleteTodo(todo);
-                                                    // controTodo.deleteTodoAll(
-                                                    //     ToDoAll(
-                                                    //         time,
-                                                    //         todo.title,
-                                                    //         todo.description));
+                                                    // controTodo.deleteTodoAll();
                                                     Navigator.of(context).pop();
                                                   },
                                                   child: const Text('ok')),

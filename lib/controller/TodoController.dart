@@ -3,11 +3,16 @@ import 'package:get/get.dart';
 class ToDoAll {
   bool isDone = false;
   int count;
+  DateTime day = DateTime.utc(
+    DateTime.now().year,
+    DateTime.now().month,
+    DateTime.now().day,
+  );
   String time;
   String title;
   String description;
 
-  ToDoAll(this.count, this.time, this.title, this.description);
+  ToDoAll(this.count, this.day, this.time, this.title, this.description);
 }
 
 class ToDos {
@@ -67,7 +72,7 @@ class TodoController extends GetxController {
         (ToDos(todo.count, todo.title, todo.description))
       ];
     }
-    print(selectedEvents.toString() + ' addtodo');
+    print('$selectedEvents addtodo');
     print(todo.title + todo.description);
     update();
   }
@@ -78,10 +83,13 @@ class TodoController extends GetxController {
     update();
   }
 
-  void checkTodo(ToDos todo) {
-    todo.isDone = !todo.isDone;
+  void checkTodo(selectedDay, isDone) {
+    // selectedEvents[selectedEvents]?.isDone = !isDone;
     print('checkTodo');
-    print(todo.isDone);
+    print(isDone);
+    print(selectedDay);
+    print(selectedEvents[selectedDay]?.elementAt(0).title);
+    // print(todo);
     update();
   }
 }

@@ -10,6 +10,7 @@ class TodolistAll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controTodo = Get.put(TodoController());
+    final itemList = controTodo.items;
 
     return GetBuilder<TodoController>(builder: (controller) {
       return controTodo.items.isEmpty
@@ -24,83 +25,91 @@ class TodolistAll extends StatelessWidget {
               ],
             )
           : Column(children: [
-              ...controTodo.items.map((ToDoAll todoall) => (ListTile(
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(todoall.title),
-                            content: SingleChildScrollView(
-                                child: ListBody(
-                              children: [
-                                Text(todoall.description),
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                Text('${todoall.time}에 작성'),
-                              ],
-                            )),
-                            actions: [
-                              ElevatedButton(
+              Flexible(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: controTodo.items.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text(itemList[index].title),
+                                      content: SingleChildScrollView(
+                                          child: ListBody(
+                                        children: [
+                                          Text(itemList[index].description),
+                                          const SizedBox(
+                                            height: 30,
+                                          ),
+                                          Text('${itemList[index].time}에 작성'),
+                                        ],
+                                      )),
+                                      actions: [
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('ok')),
+                                      ],
+                                    );
+                                  });
+                            },
+                            trailing:
+                                Row(mainAxisSize: MainAxisSize.min, children: [
+                              IconButton(
+                                color: Colors.blue,
+                                icon: const Icon(Icons.check),
+                                onPressed: () {
+                                  controTodo.checkTodo2(itemList[index].day,
+                                      index, itemList[index].isDone);
+                                  controTodo.checkTodoAll2(
+                                      index, !itemList[index].isDone);
+                                },
+                              ),
+                              IconButton(
+                                  icon: const Icon(Icons.delete),
                                   onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('ok')),
-                            ],
-                          );
-                        });
-                  },
-                  trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                    IconButton(
-                      color: Colors.blue,
-                      icon: const Icon(Icons.check),
-                      onPressed: () {
-                        controTodo.checkTodo2(todoall.title, todoall.isDone);
-                        controTodo.checkTodoAll2(todoall.count, todoall.isDone);
-                      },
-                    ),
-                    IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Text('일정 삭제'),
-                                  content: SingleChildScrollView(
-                                      child: ListBody(
-                                    children: const [
-                                      Text('일정을 삭제하시겠습니까?'),
-                                    ],
-                                  )),
-                                  actions: [
-                                    ElevatedButton(
-                                        onPressed: () {
-                                          controTodo.deleteTodoAll2(todoall);
-                                          controTodo.deleteTodo(ToDos(
-                                              todoall.count,
-                                              todoall.title,
-                                              todoall.description));
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text('ok')),
-                                    ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text('cancel'))
-                                  ],
-                                );
-                              });
-                        })
-                  ]),
-                  title: Text(todoall.title,
-                      style: todoall.isDone
-                          ? const TextStyle(
-                              decoration: TextDecoration.lineThrough,
-                              fontStyle: FontStyle.italic)
-                          : null))))
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text('일정 삭제'),
+                                            content: SingleChildScrollView(
+                                                child: ListBody(
+                                              children: const [
+                                                Text('일정을 삭제하시겠습니까?'),
+                                              ],
+                                            )),
+                                            actions: [
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    controTodo
+                                                        .deleteTodoAll2(index);
+                                                    // controTodo
+                                                    // .deleteTodo2(index);
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text('ok')),
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text('cancel'))
+                                            ],
+                                          );
+                                        });
+                                  })
+                            ]),
+                            title: Text(controTodo.items[index].title,
+                                style: controTodo.items[index].isDone
+                                    ? const TextStyle(
+                                        decoration: TextDecoration.lineThrough,
+                                        fontStyle: FontStyle.italic)
+                                    : null));
+                      }))
             ]);
     });
   }

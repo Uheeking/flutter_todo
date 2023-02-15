@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 
 class ToDoAll {
   bool isDone = false;
-  int count;
+  DateTime day;
   String time;
   String title;
   String description;
 
-  ToDoAll(this.count, this.time, this.title, this.description);
+  ToDoAll(this.day, this.time, this.title, this.description);
 }
 
 class ToDos {
@@ -22,7 +22,8 @@ class ToDos {
 
 class TodoController extends GetxController {
   int count = 0;
-  int delcount = 0;
+  late int todoIndex;
+  late int todoallIndex;
   Map<DateTime, List<ToDos>> selectedEvents = {};
   var todayList = [];
   final items = <ToDoAll>[];
@@ -43,41 +44,37 @@ class TodoController extends GetxController {
     update();
   }
 
-  void deleteTodoAll(count) {
+  void deleteTodoAll(index) {
     for (var i = 0; i < items.length; i++) {
-      if (items[i].count == count) {
-        items.removeAt(count);
-      }
-    }
-    // var count = items.length - delcount;
-    // if (delcount == 0) {
-    //   items.removeAt(todocount);
-    // } else {
-    //   items.removeAt(count);
-    // }
-    update();
-  }
-
-  void deleteTodoAll2(ToDoAll todoall) {
-    items.remove(todoall);
-    update();
-  }
-
-  void checkTodoAll(count, isDone) {
-    for (var i = 0; i < items.length; i++) {
-      if (items[i].count == count) {
-        items[i].isDone = isDone;
+      if (selectedEvents[selectedDay]![index].title == items[i].title) {
+        if (selectedEvents[selectedDay]![index].description ==
+            items[i].description) {
+          items.removeAt(i);
+        }
       }
     }
     update();
   }
 
-  void checkTodoAll2(count, isDone) {
+  void deleteTodoAll2(index) {
+    items.removeAt(index);
+    update();
+  }
+
+  void checkTodoAll(index, isDone) {
     for (var i = 0; i < items.length; i++) {
-      if (items[i].count == count) {
-        items[i].isDone = !isDone;
+      if (selectedEvents[selectedDay]![index].title == items[i].title) {
+        if (selectedEvents[selectedDay]![index].description ==
+            items[i].description) {
+          items[i].isDone = isDone;
+        }
       }
     }
+    update();
+  }
+
+  void checkTodoAll2(index, isDone) {
+    items[index].isDone = isDone;
     update();
   }
 
@@ -93,28 +90,39 @@ class TodoController extends GetxController {
     update();
   }
 
-  void deleteTodo(ToDos todo) {
-    selectedEvents[selectedDay]?.remove(todo);
+  void deleteTodo(index) {
+    selectedEvents[selectedDay]?.removeAt(index);
     update();
   }
 
-  void checkTodo(ToDos todo) {
-    todo.isDone = !todo.isDone;
+  // void deleteTodo2(index) {
+  //   for (var i = 0; i < items.length; i++) {
+  //     if (selectedEvents[selectedDay]![i].title == items[index].title) {
+  //       if (selectedEvents[selectedDay]![i].description ==
+  //           items[index].description) {
+  //         selectedEvents[selectedDay]?.removeAt(index);
+  //       }
+  //     }
+  //   }
+  //   update();
+  // }
+
+  void checkTodo(index, isDone) {
+    selectedEvents[selectedDay]![index].isDone = !isDone;
     update();
   }
 
-  void checkTodo2(title, isDone) {
-    print(selectedEvents[selectedDay]!.length);
-    // print(selectedEvents[selectedDay]?.elementAt(0).isDone);
-    // if (selectedEvents[selectedDay].length) {
-
-    // }
-    // for (var i = 0; i < selectedEvents[selectedDay]!.length; i++) {
-    //   if (selectedEvents[selectedDay]?.elementAt(i).title == title) {
-    //     selectedEvents[selectedDay]?.elementAt(i).isDone = !isDone;
-    //   }
-    // }
-    // selectedEvents[selectedDay]?.elementAt(0).isDone = !isDone;
+  void checkTodo2(day, index, isDone) {
+    print(index);
+    int? num = selectedEvents[day]?.length;
+    for (var i = 0; i < num!; i++) {
+      if (selectedEvents[day]![i].title == items[index].title) {
+        if (selectedEvents[day]![i].description == items[index].description) {
+          selectedEvents[day]![i].isDone = !isDone;
+          print(selectedEvents[selectedDay]![i].title);
+        }
+      }
+    }
     update();
   }
 }

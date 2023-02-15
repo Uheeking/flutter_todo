@@ -21,14 +21,14 @@ class BottomNaviState extends State<BottomNavi> {
       () => BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-              backgroundColor: Colors.red,
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.calendar_month_outlined),
               label: '캘린더',
               backgroundColor: Colors.green,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list_alt),
+              label: '일정모음',
+              backgroundColor: Colors.red,
             ),
           ],
           currentIndex: controller.selectedIndex.value,

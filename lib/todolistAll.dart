@@ -56,9 +56,6 @@ class TodolistAll extends StatelessWidget {
                       color: Colors.blue,
                       icon: const Icon(Icons.check),
                       onPressed: () {
-                        // controTodo.checkTodo(todo);
-                        //         controTodo.checkTodoAll(
-                        //             todo.count, todo.isDone);
                         controTodo.checkTodo2(
                             ToDos(todoall.count, todoall.title,
                                 todoall.description),
@@ -83,10 +80,11 @@ class TodolistAll extends StatelessWidget {
                                   actions: [
                                     ElevatedButton(
                                         onPressed: () {
-                                          controTodo.deleteTodoAll(todoall);
-                                          // controTodo.deleteTodo(ToDos(
-                                          //     todoall.title,
-                                          //     todoall.description));
+                                          controTodo.deleteTodoAll2(todoall);
+                                          controTodo.deleteTodo(ToDos(
+                                              todoall.count,
+                                              todoall.title,
+                                              todoall.description));
                                           Navigator.of(context).pop();
                                         },
                                         child: const Text('ok')),

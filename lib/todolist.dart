@@ -76,7 +76,13 @@ class Todolist extends StatelessWidget {
                                               ElevatedButton(
                                                   onPressed: () {
                                                     controTodo.deleteTodo(todo);
-                                                    // controTodo.deleteTodoAll();
+                                                    controTodo.deleteTodoAll(
+                                                        ToDoAll(
+                                                            todo.count,
+                                                            time,
+                                                            todo.title,
+                                                            todo.description));
+                                                    controTodo.delcount += 1;
                                                     Navigator.of(context).pop();
                                                   },
                                                   child: const Text('ok')),

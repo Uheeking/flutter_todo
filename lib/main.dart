@@ -33,8 +33,8 @@ class SecondState extends State<Second> {
   Widget build(BuildContext context) {
     final controller = Get.put(IndexController());
     final List<Widget> _widgetOptions = <Widget>[
-      const TodolistAll(),
       const Calendar(),
+      const TodolistAll(),
     ];
 
     return Obx(() => Scaffold(

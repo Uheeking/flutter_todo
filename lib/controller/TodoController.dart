@@ -4,16 +4,11 @@ import 'package:get/get.dart';
 class ToDoAll {
   bool isDone = false;
   int count;
-  DateTime day = DateTime.utc(
-    DateTime.now().year,
-    DateTime.now().month,
-    DateTime.now().day,
-  );
   String time;
   String title;
   String description;
 
-  ToDoAll(this.count, this.day, this.time, this.title, this.description);
+  ToDoAll(this.count, this.time, this.title, this.description);
 }
 
 class ToDos {
@@ -27,9 +22,9 @@ class ToDos {
 
 class TodoController extends GetxController {
   int count = 0;
+  int delcount = 0;
   Map<DateTime, List<ToDos>> selectedEvents = {};
   var todayList = [];
-  var content = [];
   final items = <ToDoAll>[];
   List<ToDos> getEventsForDay(DateTime day) {
     return selectedEvents[day] ?? [];
@@ -41,45 +36,35 @@ class TodoController extends GetxController {
     DateTime.now().day,
   );
   DateTime focusedDay = DateTime.now();
-  late String date = '';
   late String dateStr = '';
-
-  eventList(day, dateformat) {
-    for (var i in todayList) {
-      if (dateformat.format(day) == i.date) {
-        return i.title;
-      }
-    }
-    return [];
-  }
 
   void addTodoAll(ToDoAll todoall) {
     items.add(todoall);
-    // count = count + 1;
-    print(items.toString() + ' addtodoall');
     update();
   }
 
   void deleteTodoAll(ToDoAll todoall) {
+    var count = items.length - delcount;
+    if (delcount == 0) {
+      items.removeAt(todoall.count);
+    } else {
+      items.removeAt(count);
+    }
+    update();
+  }
+
+  void deleteTodoAll2(ToDoAll todoall) {
     items.remove(todoall);
-    print(selectedEvents);
-    print(items);
     update();
   }
 
   void checkTodoAll(count, isDone) {
     items[count].isDone = isDone;
-    print(count);
-    print('checkTodoall');
-    print(isDone);
     update();
   }
 
   void checkTodoAll2(count, isDone) {
     items[count].isDone = !isDone;
-    print(count);
-    print('checkTodoall');
-    print(isDone);
     update();
   }
 
@@ -92,8 +77,6 @@ class TodoController extends GetxController {
         (ToDos(todo.count, todo.title, todo.description))
       ];
     }
-    print('$selectedEvents addtodo');
-    print(todo.title + todo.description);
     update();
   }
 
@@ -104,23 +87,12 @@ class TodoController extends GetxController {
   }
 
   void checkTodo(ToDos todo) {
-    // selectedEvents[selectedEvents]?.isDone = !isDone;
     todo.isDone = !todo.isDone;
-    print('checkTodo');
-    // print(isDone);
-    print(selectedDay);
-    print(selectedEvents[selectedDay]?.elementAt(0).title);
-    // print(todo);
     update();
   }
 
   void checkTodo2(ToDos todo, isDone) {
-    // todo.isDone = !todo.isDone;
     selectedEvents[selectedDay]?.elementAt(0).isDone = !isDone;
-    print('checkTodo');
-    print(!isDone);
-    print(selectedEvents[selectedDay]?.elementAt(0).isDone);
-    // print(todo);
     update();
   }
 }

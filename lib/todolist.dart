@@ -12,6 +12,7 @@ class Todolist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controTodo = Get.put(TodoController());
+    int li = 0;
 
     return GetBuilder<TodoController>(builder: (controller) {
       return Column(mainAxisSize: MainAxisSize.min, children: [
@@ -27,7 +28,6 @@ class Todolist extends StatelessWidget {
                               child: ListBody(
                             children: [
                               Text(todo.description),
-                              // Text(todo.),
                             ],
                           )),
                           actions: [

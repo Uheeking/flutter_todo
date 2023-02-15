@@ -53,7 +53,7 @@ class Todolist extends StatelessWidget {
                                 color: Colors.blue,
                                 icon: const Icon(Icons.check),
                                 onPressed: () {
-                                  // controTodo.checkTodo(todo);
+                                  controTodo.checkTodo(todo);
                                   controTodo.checkTodoAll(
                                       todo.count, todo.isDone);
                                 },

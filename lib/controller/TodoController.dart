@@ -1,3 +1,4 @@
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 
 class ToDoAll {
@@ -27,6 +28,8 @@ class ToDos {
 class TodoController extends GetxController {
   int count = 0;
   Map<DateTime, List<ToDos>> selectedEvents = {};
+  var todayList = [];
+  var content = [];
   final items = <ToDoAll>[];
   List<ToDos> getEventsForDay(DateTime day) {
     return selectedEvents[day] ?? [];
@@ -38,8 +41,17 @@ class TodoController extends GetxController {
     DateTime.now().day,
   );
   DateTime focusedDay = DateTime.now();
+  late String date = '';
   late String dateStr = '';
-  // indexOf
+
+  eventList(day, dateformat) {
+    for (var i in todayList) {
+      if (dateformat.format(day) == i.date) {
+        return i.title;
+      }
+    }
+    return [];
+  }
 
   void addTodoAll(ToDoAll todoall) {
     items.add(todoall);
@@ -57,6 +69,14 @@ class TodoController extends GetxController {
 
   void checkTodoAll(count, isDone) {
     items[count].isDone = isDone;
+    print(count);
+    print('checkTodoall');
+    print(isDone);
+    update();
+  }
+
+  void checkTodoAll2(count, isDone) {
+    items[count].isDone = !isDone;
     print(count);
     print('checkTodoall');
     print(isDone);
@@ -83,12 +103,23 @@ class TodoController extends GetxController {
     update();
   }
 
-  void checkTodo(selectedDay, isDone) {
+  void checkTodo(ToDos todo) {
     // selectedEvents[selectedEvents]?.isDone = !isDone;
+    todo.isDone = !todo.isDone;
     print('checkTodo');
-    print(isDone);
+    // print(isDone);
     print(selectedDay);
     print(selectedEvents[selectedDay]?.elementAt(0).title);
+    // print(todo);
+    update();
+  }
+
+  void checkTodo2(ToDos todo, isDone) {
+    // todo.isDone = !todo.isDone;
+    selectedEvents[selectedDay]?.elementAt(0).isDone = !isDone;
+    print('checkTodo');
+    print(!isDone);
+    print(selectedEvents[selectedDay]?.elementAt(0).isDone);
     // print(todo);
     update();
   }

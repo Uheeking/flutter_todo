@@ -59,8 +59,11 @@ class TodolistAll extends StatelessWidget {
                         // controTodo.checkTodo(todo);
                         //         controTodo.checkTodoAll(
                         //             todo.count, todo.isDone);
-                        controTodo.checkTodo(todoall.day, todoall.isDone);
-                        controTodo.checkTodoAll(todoall.count, todoall.isDone);
+                        controTodo.checkTodo2(
+                            ToDos(todoall.count, todoall.title,
+                                todoall.description),
+                            todoall.isDone);
+                        controTodo.checkTodoAll2(todoall.count, todoall.isDone);
                       },
                     ),
                     IconButton(

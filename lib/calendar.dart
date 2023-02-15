@@ -51,6 +51,7 @@ class _CalendarState extends State<Calendar> {
       if (result?.todo != null && result?.description != null) {
         controller.dateStr =
             DateFormat('yyyy년 MM월 dd일').format(controller.selectedDay);
+        controller.date = DateFormat('yyyyMMdd').format(controller.selectedDay);
         controller.addTodoAll(ToDoAll(controller.count, controller.selectedDay,
             controller.dateStr, result.todo!, result.description!));
         controller.addTodo(
@@ -152,10 +153,10 @@ class _CalendarState extends State<Calendar> {
   }
 }
 
-class ToDo {
-  bool isDone = false;
-  String title;
-  String description;
+// class ToDo {
+//   bool isDone = false;
+//   String title;
+//   String description;
 
-  ToDo(this.title, this.description);
-}
+//   ToDo(this.title, this.description);
+// }

@@ -5,8 +5,7 @@ import 'package:get/get.dart';
 
 import 'package:todo/bottomnavi.dart';
 import 'package:todo/controller/IndexController.dart';
-import 'package:todo/controller/TodoController.dart';
-import 'package:todo/todolist.dart';
+import 'package:todo/todolistAll.dart';
 
 void main() async {
   await initializeDateFormatting();
@@ -33,10 +32,9 @@ class SecondState extends State<Second> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(IndexController());
-    final controTodo = Get.put(TodoController());
     final List<Widget> _widgetOptions = <Widget>[
-      const Todolist(),
       const Calendar(),
+      const TodolistAll(),
     ];
 
     return Obx(() => Scaffold(

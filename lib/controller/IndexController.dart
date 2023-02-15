@@ -5,6 +5,6 @@ class IndexController extends GetxController {
 
   void onItemTapped(int index) {
     selectedIndex.value = index;
-    print(index);
+    // print(index);
   }
 }

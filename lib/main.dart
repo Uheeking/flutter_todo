@@ -35,8 +35,6 @@ class SecondState extends State<Second> {
     final controller = Get.put(IndexController());
     final controTodo = Get.put(TodoController());
     final List<Widget> _widgetOptions = <Widget>[
-      // controTodo.selectedEvents
-      // Text('uheeking 존나 멋져'),
       const Todolist(),
       const Calendar(),
     ];

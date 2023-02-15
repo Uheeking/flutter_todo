@@ -72,31 +72,33 @@ class _CalendarState extends State<Calendar> {
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(18.0),
                 topRight: Radius.circular(18.0)),
-            panelBuilder: (sc) => Column(children: [
-              Container(
-                margin: const EdgeInsets.only(top: 10, bottom: 10),
-                width: 60,
-                height: 4,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: Colors.black),
-              ),
-              const Text(
-                "일정 보기",
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 20.0,
+            panelBuilder: (sc) => SingleChildScrollView(
+              child: Column(children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 10, bottom: 10),
+                  width: 60,
+                  height: 4,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.black),
                 ),
-              ),
-              // Text(
-              //   controller.dateStr,
-              //   style: const TextStyle(
-              //     fontWeight: FontWeight.normal,
-              //     fontSize: 20.0,
-              //   ),
-              // ),
-              Todolist(day: controller.selectedDay, time: controller.dateStr)
-            ]),
+                const Text(
+                  "일정 보기",
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 20.0,
+                  ),
+                ),
+                // Text(
+                //   controller.dateStr,
+                //   style: const TextStyle(
+                //     fontWeight: FontWeight.normal,
+                //     fontSize: 20.0,
+                //   ),
+                // ),
+                Todolist(day: controller.selectedDay, time: controller.dateStr)
+              ]),
+            ),
             onPanelSlide: (double pos) => setState(() {
               _fabHeight = pos * (_panelHeightClosed - _panelHeightOpen) +
                   _initFabHeight;

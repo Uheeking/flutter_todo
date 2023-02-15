@@ -153,7 +153,7 @@ class _TodoAddState extends State<TodoAdd> {
                       formKey.currentState!.save();
                       Get.snackbar(
                         '저장완료!',
-                        '폼 저장이 완료되었습니다!',
+                        '일정이 저장되었습니다!',
                         backgroundColor: Colors.white,
                       );
                       Navigator.pop(context, Datas(todo!, description!));

@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
+import 'package:todo/controller/TodoController.dart';
 
 class TodoAdd extends StatefulWidget {
   final DateTime day;
@@ -14,13 +15,28 @@ class TodoAdd extends StatefulWidget {
 
 class _TodoAddState extends State<TodoAdd> {
   final myController = TextEditingController();
+  final controTodo = TodoController();
   final formKey = GlobalKey<FormState>();
   String? todo = '';
   String? description = '';
+  late DateTime selectedTime = widget.day;
 
   @override
   Widget build(BuildContext context) {
-    final date = DateFormat('yyyy년 MM월 dd일').format(widget.day);
+    var date = DateFormat('yyyy년 MM월 dd일').format(widget.day);
+    // var datechange;
+    // Future _selectDate() async {
+    //   DateTime? picked = await showDatePicker(
+    //       context: context,
+    //       initialDate: DateTime.now(),
+    //       firstDate: DateTime(2016),
+    //       lastDate: DateTime(2029));
+    //   if (picked != null) {
+    //     setState(() => date = DateFormat('yyyy년 MM월 dd일').format(picked));
+    //   }
+    //   print(date);
+    //   // print(picked);
+    // }
 
     return GestureDetector(
       onTap: () {
@@ -102,17 +118,17 @@ class _TodoAddState extends State<TodoAdd> {
                   ),
                 ),
                 Align(
-                  alignment: Alignment.centerLeft,
-                  child: OutlinedButton(
-                      child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: OutlinedButton(
+                      child: SizedBox(
                         width: MediaQuery.of(context).size.width / 2.5,
                         height: 50,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Icon(Icons.calendar_today),
+                            const Icon(Icons.calendar_today),
                             Text(
-                              date,
+                              controTodo.datechange ?? date,
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
@@ -122,28 +138,31 @@ class _TodoAddState extends State<TodoAdd> {
                         ),
                       ),
                       onPressed: () {
-                        // _selectDate(contesxt, state);
-                      }),
-                ),
-                // Align(
-                //   alignment: Alignment.centerLeft,
-                //   child: Container(
-                //     width: MediaQuery.of(context).size.width / 2.4,
-                //     height: 50,
-                //     decoration: BoxDecoration(
-                //         border: Border.all(width: 1, color: Colors.grey)),
-                //     child: Row(
-                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //         children: [
-                //           const Icon(Icons.calendar_today),
-                //           Text(
-                //             date,
-                //             style: const TextStyle(
-                //                 fontWeight: FontWeight.bold, fontSize: 16),
-                //           )
-                //         ]),
-                //   ),
-                // ),
+                        Future<DateTime?> selectedDate = showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(), // 초깃값
+                          firstDate: DateTime(2018), // 시작일
+                          lastDate: DateTime(2030), // 마지막일
+                          builder: (BuildContext context, Widget? child) {
+                            return Theme(
+                              data: ThemeData.fallback(), // 다크테마
+                              child: child!,
+                            );
+                          },
+                        );
+                        selectedDate.then((dateTime) {
+                          // ignore: unnecessary_null_comparison
+                          if (dateTime != null) {
+                            setState(() {
+                              controTodo.datechange =
+                                  DateFormat('yyyy년 MM월 dd일').format(dateTime!);
+                              selectedTime = dateTime;
+                            });
+                          }
+                          // _selectDate();
+                        });
+                      },
+                    )),
                 const SizedBox(
                   height: 80,
                 ),
@@ -156,7 +175,11 @@ class _TodoAddState extends State<TodoAdd> {
                         '일정이 저장되었습니다!',
                         backgroundColor: Colors.white,
                       );
-                      Navigator.pop(context, Datas(todo!, description!));
+                      print(selectedTime.toString() + 'selectedTime');
+                      Navigator.pop(
+                        context,
+                        Datas(selectedTime, todo!, description!),
+                      );
                     }
                   },
                   child: Container(
@@ -183,24 +206,13 @@ class _TodoAddState extends State<TodoAdd> {
       ),
     );
   }
-
-  // Future<void> _selectDate(BuildContext context, TodoState state) async {
-  //   DateTime d = await showDatePicker(
-  //     context: context,
-  //     initialDate: DateTime.now(),
-  //     firstDate: DateTime(2020),
-  //     lastDate: DateTime(2050),
-  //   );
-
-  // selectDate = DateFormat('yyyy-MM-dd').format(d);
-  // _todoBloc.add(AddDateChanged(date: selectDate));
-  // }
 }
 
 class Datas {
   bool isDone = false;
+  late DateTime day;
   late String? todo = '';
   late String? description = '';
 
-  Datas(this.todo, this.description);
+  Datas(this.day, this.todo, this.description);
 }

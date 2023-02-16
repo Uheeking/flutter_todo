@@ -3,25 +3,27 @@ import 'package:get/get.dart';
 
 class ToDoAll {
   bool isDone = false;
-  DateTime day;
-  String time;
+  DateTime changeDay; //datepicker 일자
+  DateTime day; //선택한 월일
+  String time; //년월일
   String title;
   String description;
 
-  ToDoAll(this.day, this.time, this.title, this.description);
+  ToDoAll(this.changeDay, this.day, this.time, this.title, this.description);
 }
 
 class ToDos {
   bool isDone = false;
-  int count;
+  // DateTime day;
   String title;
   String description;
 
-  ToDos(this.count, this.title, this.description);
+  ToDos(this.title, this.description);
 }
 
 class TodoController extends GetxController {
-  int count = 0;
+  // ignore: prefer_typing_uninitialized_variables
+  var datechange;
   Map<DateTime, List<ToDos>> selectedEvents = {};
   var todayList = [];
   final items = <ToDoAll>[];
@@ -29,12 +31,14 @@ class TodoController extends GetxController {
     return selectedEvents[day] ?? [];
   }
 
+  // late DateTime day;
   DateTime selectedDay = DateTime.utc(
     DateTime.now().year,
     DateTime.now().month,
     DateTime.now().day,
   );
   DateTime focusedDay = DateTime.now();
+  late DateTime changeDay;
   late String dateStr = '';
 
   void addTodoAll(ToDoAll todoall) {
@@ -76,14 +80,17 @@ class TodoController extends GetxController {
     update();
   }
 
-  void addTodo(ToDos todo) {
-    if (selectedEvents[selectedDay] != null) {
-      selectedEvents[selectedDay]
-          ?.add(ToDos(todo.count, todo.title, todo.description));
+  void addTodo(ToDos todo, date) {
+    print(date.toString() + 'addtodo');
+    DateTime day = DateTime.utc(
+      date.year,
+      date.month,
+      date.day,
+    );
+    if (selectedEvents[day] != null) {
+      selectedEvents[day]?.add(ToDos(todo.title, todo.description));
     } else {
-      selectedEvents[selectedDay] = [
-        (ToDos(todo.count, todo.title, todo.description))
-      ];
+      selectedEvents[day] = [(ToDos(todo.title, todo.description))];
     }
     update();
   }
@@ -110,7 +117,12 @@ class TodoController extends GetxController {
     update();
   }
 
-  void checkTodo2(day, index, isDone) {
+  void checkTodo2(date, index, isDone) {
+    DateTime day = DateTime.utc(
+      date.year,
+      date.month,
+      date.day,
+    );
     int? num = selectedEvents[day]?.length;
     for (var i = 0; i < num!; i++) {
       if (selectedEvents[day]![i].title == items[index].title) {

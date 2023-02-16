@@ -23,7 +23,6 @@ class Todolist extends StatelessWidget {
                   '일정이 없습니다. ',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
                 ),
-                Text('일정을 추가해주세요.')
               ],
             )
           : Column(mainAxisSize: MainAxisSize.min, children: [

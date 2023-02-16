@@ -20,6 +20,7 @@ class Calendar extends StatefulWidget {
 
 class _CalendarState extends State<Calendar> {
   final controller = Get.put(TodoController());
+  late DateTime selectedTime;
   final double _initFabHeight = 120.0;
   double _fabHeight = 0;
   double _panelHeightOpen = 0;
@@ -49,17 +50,19 @@ class _CalendarState extends State<Calendar> {
       );
 
       if (result?.todo != null && result?.description != null) {
-        controller.dateStr =
-            DateFormat('yyyy년 MM월 dd일').format(controller.selectedDay);
-        controller.addTodoAll(ToDoAll(controller.selectedDay,
+        DateTime day = DateTime.utc(
+          result.day.year,
+          result.day.month,
+          result.day.day,
+        );
+        // if (day != controller.selectedDay) {
+        //   day = controller.selectedDay;
+        // }
+        controller.dateStr = DateFormat('yyyy년 MM월 dd일').format(day);
+        controller.addTodoAll(ToDoAll(day, controller.selectedDay,
             controller.dateStr, result.todo!, result.description!));
-        controller.addTodo(
-            ToDos(controller.count, result.todo!, result.description!));
-        controller.count = controller.count + 1;
+        controller.addTodo(ToDos(result.todo!, result.description!), day);
       }
-
-      // print(selectedEvents);
-      // print(controller.selectedEvents);
     }
 
     return GetBuilder<TodoController>(builder: (controller) {
@@ -89,13 +92,6 @@ class _CalendarState extends State<Calendar> {
                     fontSize: 20.0,
                   ),
                 ),
-                // Text(
-                //   controller.dateStr,
-                //   style: const TextStyle(
-                //     fontWeight: FontWeight.normal,
-                //     fontSize: 20.0,
-                //   ),
-                // ),
                 Todolist(day: controller.selectedDay, time: controller.dateStr)
               ]),
             ),
@@ -117,6 +113,7 @@ class _CalendarState extends State<Calendar> {
 
                     controller.dateStr = DateFormat('yyyy년 MM월 dd일')
                         .format(controller.selectedDay);
+                    print(controller.selectedDay.toString() + ' selectedDay');
                   });
                 },
                 selectedDayPredicate: (DateTime day) {

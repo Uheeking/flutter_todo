@@ -63,8 +63,10 @@ class TodolistAll extends StatelessWidget {
                                 color: Colors.blue,
                                 icon: const Icon(Icons.check),
                                 onPressed: () {
-                                  controTodo.checkTodo2(itemList[index].day,
-                                      index, itemList[index].isDone);
+                                  controTodo.checkTodo2(
+                                      itemList[index].changeDay,
+                                      index,
+                                      itemList[index].isDone);
                                   controTodo.checkTodoAll2(
                                       index, !itemList[index].isDone);
                                 },

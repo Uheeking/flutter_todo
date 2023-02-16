@@ -86,10 +86,11 @@ class TodolistAll extends StatelessWidget {
                                             actions: [
                                               ElevatedButton(
                                                   onPressed: () {
+                                                    controTodo.deleteTodo2(
+                                                        itemList[index].day,
+                                                        index);
                                                     controTodo
                                                         .deleteTodoAll2(index);
-                                                    // controTodo
-                                                    // .deleteTodo2(index);
                                                     Navigator.of(context).pop();
                                                   },
                                                   child: const Text('ok')),

@@ -22,8 +22,6 @@ class ToDos {
 
 class TodoController extends GetxController {
   int count = 0;
-  late int todoIndex;
-  late int todoallIndex;
   Map<DateTime, List<ToDos>> selectedEvents = {};
   var todayList = [];
   final items = <ToDoAll>[];
@@ -95,17 +93,17 @@ class TodoController extends GetxController {
     update();
   }
 
-  // void deleteTodo2(index) {
-  //   for (var i = 0; i < items.length; i++) {
-  //     if (selectedEvents[selectedDay]![i].title == items[index].title) {
-  //       if (selectedEvents[selectedDay]![i].description ==
-  //           items[index].description) {
-  //         selectedEvents[selectedDay]?.removeAt(index);
-  //       }
-  //     }
-  //   }
-  //   update();
-  // }
+  void deleteTodo2(day, index) {
+    int? num = selectedEvents[day]?.length;
+    for (var i = 0; i < num!; i++) {
+      if (selectedEvents[day]![i].title == items[index].title) {
+        if (selectedEvents[day]![i].description == items[index].description) {
+          selectedEvents[day]?.removeAt(i);
+        }
+      }
+    }
+    update();
+  }
 
   void checkTodo(index, isDone) {
     selectedEvents[selectedDay]![index].isDone = !isDone;
@@ -113,13 +111,11 @@ class TodoController extends GetxController {
   }
 
   void checkTodo2(day, index, isDone) {
-    print(index);
     int? num = selectedEvents[day]?.length;
     for (var i = 0; i < num!; i++) {
       if (selectedEvents[day]![i].title == items[index].title) {
         if (selectedEvents[day]![i].description == items[index].description) {
           selectedEvents[day]![i].isDone = !isDone;
-          print(selectedEvents[selectedDay]![i].title);
         }
       }
     }

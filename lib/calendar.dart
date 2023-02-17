@@ -23,12 +23,12 @@ class _CalendarState extends State<Calendar> {
   late DateTime selectedTime;
   final double _initFabHeight = 120.0;
   double _fabHeight = 0;
-  double _panelHeightOpen = 0;
-  double _panelHeightClosed = 280.0;
+  final double _panelHeightOpen = 0;
+  final double _panelHeightClosed = 280.0;
 
   var _calendarFormat = CalendarFormat.month;
 
-  BorderRadiusGeometry radius = BorderRadius.only(
+  BorderRadiusGeometry radius = const BorderRadius.only(
     topLeft: Radius.circular(24.0),
     topRight: Radius.circular(24.0),
   );
@@ -55,9 +55,6 @@ class _CalendarState extends State<Calendar> {
           result.day.month,
           result.day.day,
         );
-        // if (day != controller.selectedDay) {
-        //   day = controller.selectedDay;
-        // }
         controller.dateStr = DateFormat('yyyy년 MM월 dd일').format(day);
         controller.addTodoAll(ToDoAll(day, controller.selectedDay,
             controller.dateStr, result.todo!, result.description!));
@@ -113,7 +110,6 @@ class _CalendarState extends State<Calendar> {
 
                     controller.dateStr = DateFormat('yyyy년 MM월 dd일')
                         .format(controller.selectedDay);
-                    print(controller.selectedDay.toString() + ' selectedDay');
                   });
                 },
                 selectedDayPredicate: (DateTime day) {

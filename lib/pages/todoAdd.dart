@@ -24,19 +24,6 @@ class _TodoAddState extends State<TodoAdd> {
   @override
   Widget build(BuildContext context) {
     var date = DateFormat('yyyy년 MM월 dd일').format(widget.day);
-    // var datechange;
-    // Future _selectDate() async {
-    //   DateTime? picked = await showDatePicker(
-    //       context: context,
-    //       initialDate: DateTime.now(),
-    //       firstDate: DateTime(2016),
-    //       lastDate: DateTime(2029));
-    //   if (picked != null) {
-    //     setState(() => date = DateFormat('yyyy년 MM월 dd일').format(picked));
-    //   }
-    //   print(date);
-    //   // print(picked);
-    // }
 
     return GestureDetector(
       onTap: () {
@@ -145,7 +132,7 @@ class _TodoAddState extends State<TodoAdd> {
                           lastDate: DateTime(2030), // 마지막일
                           builder: (BuildContext context, Widget? child) {
                             return Theme(
-                              data: ThemeData.fallback(), // 다크테마
+                              data: ThemeData.fallback(), 
                               child: child!,
                             );
                           },
@@ -155,11 +142,10 @@ class _TodoAddState extends State<TodoAdd> {
                           if (dateTime != null) {
                             setState(() {
                               controTodo.datechange =
-                                  DateFormat('yyyy년 MM월 dd일').format(dateTime!);
+                                  DateFormat('yyyy년 MM월 dd일').format(dateTime);
                               selectedTime = dateTime;
                             });
                           }
-                          // _selectDate();
                         });
                       },
                     )),

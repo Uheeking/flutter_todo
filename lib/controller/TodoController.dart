@@ -14,7 +14,6 @@ class ToDoAll {
 
 class ToDos {
   bool isDone = false;
-  // DateTime day;
   String title;
   String description;
 
@@ -23,9 +22,7 @@ class ToDos {
 
 class TodoController extends GetxController {
   // ignore: prefer_typing_uninitialized_variables
-  var datechange;
   Map<DateTime, List<ToDos>> selectedEvents = {};
-  var todayList = [];
   final items = <ToDoAll>[];
   List<ToDos> getEventsForDay(DateTime day) {
     return selectedEvents[day] ?? [];
@@ -81,7 +78,6 @@ class TodoController extends GetxController {
   }
 
   void addTodo(ToDos todo, date) {
-    print(date.toString() + 'addtodo');
     DateTime day = DateTime.utc(
       date.year,
       date.month,

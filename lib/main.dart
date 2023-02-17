@@ -9,21 +9,25 @@ import 'package:todo/todolistAll.dart';
 
 void main() async {
   await initializeDateFormatting();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'TodoApp',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: Second(),
+      home: const Second(),
     );
   }
 }
 
 class Second extends StatefulWidget {
+  const Second({super.key});
+
   @override
   SecondState createState() => SecondState();
 }
@@ -32,7 +36,7 @@ class SecondState extends State<Second> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(IndexController());
-    final List<Widget> _widgetOptions = <Widget>[
+    final List<Widget> widgetOptions = <Widget>[
       const Calendar(),
       const TodolistAll(),
     ];
@@ -43,7 +47,7 @@ class SecondState extends State<Second> {
           title: const Text('Todo List'),
         ),
         body: Center(
-          child: _widgetOptions.elementAt(controller.selectedIndex.value),
+          child: widgetOptions.elementAt(controller.selectedIndex.value),
         ),
         bottomNavigationBar: const BottomNavi()));
   }

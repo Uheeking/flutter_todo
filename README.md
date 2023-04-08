@@ -25,9 +25,10 @@ flutter를 더 잘 활용하기 위해, 생각하다가 todo앱을 설계하게 
 ## 1) 일정 등록하기
 <img width="504" alt="image" src="https://user-images.githubusercontent.com/90121929/230699401-a7fc9cb8-289c-4891-b5b2-9bce0f8c485a.png">
 - ***왼쪽 사진(메인화면)*** : 이 화면에서 floatingactionbutton을 누르면 오른쪽 화면으로 가게 설정하였다.
+
 - ***오른쪽 사진(일정등록)*** : 할일과 설명을 적게 설정하였다. 이는 **자동으로 validation을 하게 설정**하였다. 그래서 할일과 설명란에 글을 쓰지 않으면 다음 화면으로 넘어갈 수 없게 하였다.
     - ***날짜*** : 내가 누른 날짜와 다른 날짜에 할일을 등록하고 싶을 경우에 대비하여 날짜버튼을 눌렀을 때 변경되도록 설정하였다.
-    - ![image](https://user-images.githubusercontent.com/90121929/230699422-042e10e1-e1f4-4dbf-8270-8783683dc8f1.png)
+    - <img width="280" alt="image" src="https://user-images.githubusercontent.com/90121929/230699519-71cfbf21-4bc3-4347-93d4-80153f9466f1.png">
     
 ## 2) 일정보기
 <img width="509" alt="image" src="https://user-images.githubusercontent.com/90121929/230699442-15dd4cc6-7a1e-4e1d-aede-9b21428289c1.png">
